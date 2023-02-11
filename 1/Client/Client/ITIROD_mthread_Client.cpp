@@ -27,10 +27,20 @@ void ITIROD_mthread_Client::server_listener()
         if (!recieve_message(message))
         {
             printf("Unable to recieve message ... ");
-            return;
+            continue;
         }
 
-        all_messages.push_back(message);
+        std::string res = "";
+
+        for (int i = 0; i < BUFLEN; i++)
+        {
+            if (message[i] >= 32)
+                res += message[i];
+            else
+                break;
+        }
+
+        all_messages.push_back(res);
     }
 }
 
@@ -152,12 +162,9 @@ bool ITIROD_mthread_Client::recieve_message(char*& message)
 void ITIROD_mthread_Client::redraw_console()
 {
     system("CLS");
-
-    for (
-        int i = all_messages.size() - 1, limit = messages_show_limit;
-        i >= 0 && limit > 0;
-        i--, limit--
-        )
+    int i = all_messages.size() - messages_show_limit;
+    if (i < 0) i = 0;
+    for ( ; i < all_messages.size(); i++ )
     {
         std::cout << all_messages[i] << "\n";
     }

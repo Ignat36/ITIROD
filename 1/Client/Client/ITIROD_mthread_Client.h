@@ -25,7 +25,7 @@ protected:
 	int BUFLEN;
 	int server_port;
 	sockaddr_in server;
-	int client_socket = -1;
+	SOCKET client_socket;
 	int slen = sizeof(sockaddr_in);
 
 	int messages_show_limit = 10;
