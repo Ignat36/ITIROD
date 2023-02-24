@@ -35,7 +35,8 @@ protected:
 	std::vector<std::string> keyboard_input_vector; 
 	int out_msg_count = 0;
 
-	std::vector<std::string> all_messages;
+	std::vector<std::string> all_messages = std::vector<std::string>(1000, "");
+	int last_msg = 0;
 	int in_msg_count = 0;
 
 	std::string keyboard_buffer;

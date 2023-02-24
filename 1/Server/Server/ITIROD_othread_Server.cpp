@@ -133,14 +133,7 @@ bool ITIROD_othread_Server::handle_client_message(std::string message, sockaddr_
 		}
 	}
 
-	std::string name = "";
-	for (int i = 0; i < BUFLEN; i++)
-	{
-		if (message[i] >= 32)
-			name += message[i];
-		else
-			break;
-	}
+	std::string name = message;
 
 	clients.push_back(Client(client_socket, name));
 	return false;

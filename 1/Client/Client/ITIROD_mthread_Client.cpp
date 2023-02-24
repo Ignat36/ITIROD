@@ -33,8 +33,8 @@ void ITIROD_mthread_Client::server_listener()
         }
 
         std::string res = message;
-
-        all_messages.push_back(res);
+        //std::this_thread::sleep_for(std::chrono::seconds(1));
+        all_messages[last_msg++] = res;
     }
 }
 
@@ -48,6 +48,7 @@ void ITIROD_mthread_Client::keyboard_listener()
         {
             keyboard_input_vector.push_back(keyboard_buffer);
             keyboard_buffer = "";
+            //std::this_thread::sleep_for(std::chrono::seconds(1));
         }
         else
         {
@@ -68,9 +69,9 @@ void ITIROD_mthread_Client::main_thread()
             send_message(keyboard_input_vector[out_msg_count++].c_str());
         }
 
-        if (in_msg_count != all_messages.size())
+        if (in_msg_count != last_msg)
         {
-            in_msg_count = all_messages.size();
+            in_msg_count = last_msg;
             redraw_console();
         }
         
@@ -169,10 +170,10 @@ bool ITIROD_mthread_Client::recieve_message(char*& message)
 
     int char_count = stoi(count);
 
-    std::string n_message = "";
+    std::string n_message(char_count, ' ');
     for (int j = 0; j < char_count; j++, i++)
     {
-        n_message += message[i];
+        n_message[j] = message[i];
     }
 
     message = new char[char_count + 1];
@@ -185,9 +186,9 @@ bool ITIROD_mthread_Client::recieve_message(char*& message)
 void ITIROD_mthread_Client::redraw_console()
 {
     system("CLS");
-    int i = all_messages.size() - messages_show_limit;
+    int i = last_msg - messages_show_limit;
     if (i < 0) i = 0;
-    for ( ; i < all_messages.size(); i++ )
+    for ( ; i < last_msg; i++ )
     {
         std::cout << all_messages[i] << "\n";
     }
