@@ -176,7 +176,8 @@ bool ITIROD_mthread_Client::recieve_message(char*& message)
         n_message[j] = message[i];
     }
 
-    message = new char[char_count + 1];
+    /*delete[] message;
+    message = new char[char_count + 1];*/
     for (int j = 0; j < char_count; j++) message[j] = n_message[j];
     message[char_count] = '\0';
 
