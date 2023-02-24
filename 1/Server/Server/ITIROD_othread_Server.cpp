@@ -67,7 +67,17 @@ bool ITIROD_othread_Server::setup_server()
 
 bool ITIROD_othread_Server::send_message(std::string message, const Client& to)
 {
-	if (sendto(server_socket, message.c_str(), strlen(message.c_str()), 0, (sockaddr*)&(to.m_socket), slen) == SOCKET_ERROR)
+	char* buffer = new char[BUFLEN];
+
+	std::string char_count = std::to_string(message.size());
+
+	int i = 0;
+	for (; i < BUFLEN && i < char_count.size(); i++) buffer[i] = char_count[i];
+	if (i < BUFLEN) buffer[i++] = ' ';
+	for (int j = 0; i < BUFLEN && j < message.size(); j++, i++) buffer[i] = message[j];
+	for (; i < BUFLEN; i++) buffer[i] = ' ';
+
+	if (sendto(server_socket, buffer, BUFLEN, 0, (sockaddr*)&(to.m_socket), slen) == SOCKET_ERROR)
 	{
 	    printf("sendto() failed with error code: %d", WSAGetLastError());
 	    return false;
@@ -87,6 +97,23 @@ bool ITIROD_othread_Server::recieve_message(char*& message, sockaddr_in& client)
 		printf("recvfrom() failed with error code: %d", WSAGetLastError());
 		return false;
 	}
+
+	std::string count = "";
+	int i = 0;
+	for (; i < BUFLEN && message[i] != ' '; i++) count += message[i];
+	i++;
+
+	int char_count = stoi(count);
+
+	std::string n_message = "";
+	for (int j = 0; j < char_count; j++, i++)
+	{
+		n_message += message[i];
+	}
+
+	message = new char[char_count + 1];
+	for (int j = 0; j < char_count; j++) message[j] = n_message[j];
+	message[char_count] = '\0';
 
 	// print details of the client/peer and the data received
 	printf("Received packet from %s:%d\n", inet_ntoa(client.sin_addr), ntohs(client.sin_port));

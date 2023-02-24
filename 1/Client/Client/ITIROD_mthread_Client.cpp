@@ -1,5 +1,7 @@
 #include "ITIROD_mthread_Client.h"
 
+#include <string>
+
 #pragma comment(lib,"ws2_32.lib") 
 #pragma warning(disable:4996) 
 
@@ -30,15 +32,7 @@ void ITIROD_mthread_Client::server_listener()
             continue;
         }
 
-        std::string res = "";
-
-        for (int i = 0; i < BUFLEN; i++)
-        {
-            if (message[i] >= 32)
-                res += message[i];
-            else
-                break;
-        }
+        std::string res = message;
 
         all_messages.push_back(res);
     }
@@ -126,10 +120,21 @@ bool ITIROD_mthread_Client::setup_name()
 
 bool ITIROD_mthread_Client::send_message(const char* message)
 {
+    std::string mmessage = message;
+    char* buffer = new char[BUFLEN];
+
+    std::string char_count = std::to_string(mmessage.size());
+
+    int i = 0;
+    for (; i < BUFLEN && i < char_count.size(); i++) buffer[i] = char_count[i];
+    if (i < BUFLEN) buffer[i++] = ' ';
+    for (int j = 0; i < BUFLEN && j < mmessage.size(); j++, i++) buffer[i] = mmessage[j];
+    for (; i < BUFLEN; i++) buffer[i] = ' ';
+
     if (sendto(
         client_socket,
-        message,
-        strlen(message),
+        buffer,
+        BUFLEN,
         0,
         (sockaddr*)&server,
         slen
@@ -156,6 +161,24 @@ bool ITIROD_mthread_Client::recieve_message(char*& message)
         printf("recvfrom() failed with error code: %d", WSAGetLastError());
         return false;
     }
+
+    std::string count = "";
+    int i = 0;
+    for (; i < BUFLEN && message[i] != ' '; i++) count += message[i];
+    i++;
+
+    int char_count = stoi(count);
+
+    std::string n_message = "";
+    for (int j = 0; j < char_count; j++, i++)
+    {
+        n_message += message[i];
+    }
+
+    message = new char[char_count + 1];
+    for (int j = 0; j < char_count; j++) message[j] = n_message[j];
+    message[char_count] = '\0';
+
     return true;
 }
 
