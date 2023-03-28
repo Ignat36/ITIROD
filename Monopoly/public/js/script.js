@@ -46,12 +46,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     // function to create the squares
     function createSquare(square, x, y) {
-        const newSquare = document.createElement('div');
+        const newSquare = document.createElement('span');
         newSquare.classList.add('board__square');
         newSquare.classList.add(`board__square--${square.type}`);
         newSquare.style.backgroundColor = square.color;
-        newSquare.style.gridColumn = `${x + 1}`;
-        newSquare.style.gridRow = `${y + 1}`;
+        newSquare.style.gridColumn = `${y + 1}`;
+        newSquare.style.gridRow = `${x + 1}`;
         return newSquare;
     }
 
@@ -65,17 +65,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
             const newSquare = createSquare(square, 0, y);
             squareElements.push(newSquare);
     }
-    for (let x = 0; x < height; x++) {
+    for (let x = 1; x < height; x++) {
             const square = squares[i++];
             const newSquare = createSquare(square, x, width - 1);
             squareElements.push(newSquare);
     }
-    for (let y = width-1; y >= 0; y--) {
+    for (let y = width-2; y >= 0; y--) {
             const square = squares[i++];
             const newSquare = createSquare(square, height-1, y);
             squareElements.push(newSquare);
     }
-    for (let x = height-1; x >= 0; x--) {
+    for (let x = height-2; x >= 0; x--) {
         const square = squares[i++];
         const newSquare = createSquare(square, x, 0);
         squareElements.push(newSquare);
