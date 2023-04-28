@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration</title>
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/global.css"/>
+</head>
+<body>
+<header>
+    <nav>
+        <strong>
+            <b>Monopoly</b>
+        </strong>
+    </nav>
+</header>
+<main class="page-signin__main">
+    <section class="main__auth-data">
+        <header class="auth-data__header">
+            <b>Registration</b>
+        </header>
+        <main class="auth-data__main">
+            <form class="main__form" action="index.html" method="get" id="regiForm" name="signup">
+                <input
+                        class="form__input-field"
+                        id="username"
+                        type="text"
+                        placeholder="Username"
+                        required/>
+                <input
+                        class="form__input-field"
+                        id="pass"
+                        type="password"
+                        placeholder="Password"
+                        minlength="8"
+                        required/>
+                <input
+                        class="form__input-field"
+                        id="rep_pass"
+                        type="password"
+                        placeholder="Repeat password"
+                        minlength="8"
+                        required/>
+                <button class="form__submit-btn" type="submit">
+                    <b class="submit-btn__text">Sign Up</b>
+                </button>
+                <strong><b>OR</b></strong>
+                <a class="form__redirect-btn" href="authorization.html">
+                    <b class="redirect-btn__text">Sign In</b>
+                </a>
+            </form>
+        </main>
+    </section>
+</main>
+</body>
+</html>

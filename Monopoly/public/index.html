@@ -1,46 +1,203 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Monopoly</title>
-    <link rel="stylesheet" href="css/style.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap"
+    />
+    <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=swap"
+    />
+    <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Raleway:wght@400&display=swap"
+    />
 </head>
 <body>
-<header>
-    <!-- Title -->
-    <h1>Monopoly Game</h1>
-    <!-- Authorization block -->
-    <div class="authorization">
-        <button>Login</button>
-        <button>Sign up</button>
+<div class="logged-in-lobby">
+    <div class="navbar">
+        <div class="navbar-brand"><div class="monopoly">Monopoly</div></div>
+        <div class="navbar-nav">
+            <div class="link">Sign In</div>
+            <div class="link1">Sign Up</div>
+        </div>
     </div>
-</header>
-<!-- List of available games -->
-<section class="games-list">
-    <h2>Available Games</h2>
-    <ul>
-        <li>Game 1</li>
-        <li>Game 2</li>
-        <li>Game 3</li>
-        <!-- Add more games here -->
-    </ul>
-</section>
-<!-- Profile block -->
-<section class="profile">
-    <div class="profile-image">
-        <!-- User image goes here -->
+    <div class="main">
+        <div class="available-games-section">
+            <div class="games-list-header">
+                <div class="available-games">Available games</div>
+                <div class="btn-signin-wrapper">
+                    <button class="btn-signin">
+                        <button class="btn-area"></button>
+                        <div class="sign-in">Create New</div>
+                    </button>
+                </div>
+            </div>
+            <div class="game1">
+                <div class="player1">
+                    <img
+                            class="player-avatar-icon"
+                            alt=""
+                            src="./public/playeravatar@2x.png"
+                    />
+                    <div class="ignat">Ignat</div>
+                </div>
+                <div class="player1">
+                    <img
+                            class="player-avatar-icon"
+                            alt=""
+                            src="./public/playeravatar1@2x.png"
+                    />
+                    <div class="ignat">Roma</div>
+                </div>
+                <img class="player3-icon" alt="" src="./public/player3.svg" /><img
+                    class="player3-icon"
+                    alt=""
+                    src="./public/player4.svg"
+            />
+            </div>
+            <div class="game2">
+                <div class="player1">
+                    <img
+                            class="player-avatar-icon"
+                            alt=""
+                            src="./public/playeravatar2@2x.png"
+                    />
+                    <div class="ignat">Roma</div>
+                </div>
+                <img class="player2-icon" alt="" src="./public/player2.svg" />
+            </div>
+            <div class="game3">
+                <div class="player1">
+                    <img
+                            class="player-avatar-icon"
+                            alt=""
+                            src="./public/playeravatar3@2x.png"
+                    />
+                    <div class="ignat">Ignat</div>
+                </div>
+                <img class="player3-icon" alt="" src="./public/player21.svg" /><img
+                    class="player3-icon"
+                    alt=""
+                    src="./public/player31.svg"
+            />
+            </div>
+            <div class="game3">
+                <div class="player1">
+                    <img
+                            class="player-avatar-icon"
+                            alt=""
+                            src="./public/playeravatar3@2x.png"
+                    />
+                    <div class="ignat">Ignat</div>
+                </div>
+                <div class="player1">
+                    <img
+                            class="player-avatar-icon"
+                            alt=""
+                            src="./public/playeravatar4@2x.png"
+                    />
+                    <div class="ignat">Roma</div>
+                </div>
+                <img class="player3-icon" alt="" src="./public/player32.svg" />
+            </div>
+            <div class="game3">
+                <div class="player1">
+                    <img
+                            class="player-avatar-icon"
+                            alt=""
+                            src="./public/playeravatar5@2x.png"
+                    />
+                    <div class="ignat">Ignat</div>
+                </div>
+                <div class="player1">
+                    <img
+                            class="player-avatar-icon"
+                            alt=""
+                            src="./public/playeravatar6@2x.png"
+                    />
+                    <div class="ignat">Roma</div>
+                </div>
+            </div>
+        </div>
+        <div class="middle-section">
+            <div class="profile-section">
+                <div class="profile">Profile</div>
+                <div class="profile-section-child"></div>
+                <img
+                        class="profile-section-item"
+                        alt=""
+                        src="./public/ellipse-1@2x.png"
+                />
+                <div class="profile">You</div>
+                <div class="statistics-section">
+                    <textarea class="wins-row"></textarea>
+                    <div class="games-row">
+                        <div class="games">Games</div>
+                        <div class="div">:</div>
+                        <div class="div1">129</div>
+                    </div>
+                    <div class="games-row">
+                        <div class="games">Win rate</div>
+                        <div class="div2">:</div>
+                        <div class="div1">0%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="conect-section">
+                <div class="connect-by-code">Connect by code</div>
+                <input class="code-input-field" type="text" />
+                <div class="btn-signin-wrapper">
+                    <button class="btn-signin1">
+                        <button class="btn-area"></button>
+                        <div class="sign-in">Connect</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="current-game">
+            <div class="player15">
+                <img
+                        class="player-avatar-icon"
+                        alt=""
+                        src="./public/playeravatar7@2x.png"
+                />
+                <div class="ignat">Ignat</div>
+            </div>
+            <div class="player15">
+                <img
+                        class="player-avatar-icon"
+                        alt=""
+                        src="./public/playeravatar7@2x.png"
+                />
+                <div class="ignat">Ignat</div>
+            </div>
+            <div class="player15">
+                <img
+                        class="player-avatar-icon"
+                        alt=""
+                        src="./public/playeravatar7@2x.png"
+                />
+                <div class="ignat">Ignat</div>
+            </div>
+            <div class="player15">
+                <img
+                        class="player-avatar-icon"
+                        alt=""
+                        src="./public/playeravatar7@2x.png"
+                />
+                <div class="ignat">Ignat</div>
+            </div>
+            <div class="btn-signin-wrapper">
+                <textarea class="btn-signin2"></textarea>
+            </div>
+        </div>
     </div>
-    <div class="profile-info">
-        <h2>Username</h2>
-        <p>Wins: 0</p>
-        <p>Losses: 0</p>
-        <p>Games Played: 0</p>
-    </div>
-</section>
-<!-- Buttons to create a new game -->
-<section class="create-game">
-    <button>New Game</button>
-    <button>Join Game</button>
-</section>
+</div>
 </body>
 </html>
