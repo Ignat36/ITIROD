@@ -283,10 +283,11 @@ body {
     height: 3.2rem;
     flex-shrink: 0;
     cursor: pointer;
-    border: 0;
-    padding: 0;
+    border: 3px;
+    padding: 3px;
     background-color: #354545;
     border-radius: 4px;
+    margin: 10px;
 }
 
 .submit-btn__text {

@@ -216,29 +216,32 @@
                 </header>
                 <main class="profile__section-main">
                     <div class="profile__section-view">
-                        <div class="circle-img-shape">
+                        <div class="profile-circle-img-shape">
                             <img src="img/dice5.png" alt="Profile picture">
                         </div>
-                        <strong><b>You</b></strong>
+                        <strong class="profile__section-header"><b>You</b></strong>
                     </div>
-                    <table>
-                        <tr>
-                            <td>Wins:</td>
-                            <td>10</td>
+                    <table class="profile__table profile-text">
+                        <tr class="profile__table-row">
+                            <td class="profile__table-cell">Wins</td>
+                            <td class="profile__table-cell">:</td>
+                            <td class="profile__table-cell">10</td>
                         </tr>
-                        <tr>
-                            <td>Games:</td>
-                            <td>20</td>
+                        <tr class="profile__table-row">
+                            <td class="profile__table-cell">Games</td>
+                            <td class="profile__table-cell">:</td>
+                            <td class="profile__table-cell">20</td>
                         </tr>
-                        <tr>
-                            <td>Win Rate:</td>
-                            <td>50%</td>
+                        <tr class="profile__table-row">
+                            <td class="profile__table-cell">Win Rate</td>
+                            <td class="profile__table-cell">:</td>
+                            <td class="profile__table-cell">50%</td>
                         </tr>
                     </table>
                 </main>
             </section>
             <form class="game-connection__form">
-                <strong><b>Connect by code</b></strong>
+                <strong class="profile__section-header"><b>Connect by code</b></strong>
                 <input
                         class="form__input-field"
                         id="connection-code__input"
@@ -290,7 +293,7 @@
                 </ul>
             </main>
             <footer class="index-current-game__section-footer">
-                <button class="default__button">Leave</button>
+                <button class="cur-game-form__submit-btn" >Leave</button>
             </footer>
         </section>
     </div>
