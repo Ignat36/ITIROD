@@ -207,20 +207,6 @@
     padding: 10px 0;
 }
 
-.header__nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ECDDDD;
-    padding: 10px;
-    height: 3vh;
-}
-
-.header__title {
-    margin-left: 10px;
-    font-size: 3vh;
-}
-
 .form__checkboxes-wrapper {
     display: flex;
     justify-content: space-between;

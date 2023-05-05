@@ -5,21 +5,22 @@
     <link rel="stylesheet" href="css/auth.css">
     <link rel="stylesheet" href="css/global.css"/>
 </head>
-<body>
-    <header>
-        <nav>
-            <strong>
-                <b>Monopoly</b>
-            </strong>
-        </nav>
-    </header>
-    <main class="page-signin__main">
-        <section class="main__auth-data">
+<body class="auth__body">
+<header class="header__nav">
+    <nav class="header__title">
+        <strong>
+            <b>Monopoly</b>
+        </strong>
+    </nav>
+</header>
+<main class="page-signin__main">
+    <div class="auth__main_div">
+        <section class="auth-data__section">
             <header class="auth-data__header">
                 <b>Authorization</b>
             </header>
             <main class="auth-data__main">
-                <form class="main__form" action="index.html" method="get" id="authForm" name="signin">
+                <form class="main__form" action="index.html" method="get" id="regiForm" name="signup">
                     <input
                             class="form__input-field"
                             id="username"
@@ -37,12 +38,11 @@
                         <b class="submit-btn__text">Sign In</b>
                     </button>
                     <strong><b>OR</b></strong>
-                    <a class="form__redirect-btn" href="registration.html">
-                        <b class="redirect-btn__text">Sign Up</b>
-                    </a>
+                    <a href="registration.html" class="ref-text">Sign Up</a>
                 </form>
             </main>
         </section>
-    </main>
+    </div>
+</main>
 </body>
 </html>

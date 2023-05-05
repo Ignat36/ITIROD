@@ -77,6 +77,20 @@ body {
     --br-8xs: 5px;
 }
 
+.header__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ECDDDD;
+    padding: 10px;
+    height: 3vh;
+}
+
+.header__title {
+    margin-left: 10px;
+    font-size: 3vh;
+}
+
 .paragraph {
     position: relative;
     letter-spacing: 0.2px;
@@ -242,15 +256,6 @@ body {
     object-fit: cover;
 }
 
-
-/*Auth Data Input*/
-.auth-data__header,
-.auth-data__main {
-    display: flex;
-    justify-items: center;
-    align-items: center;
-}
-
 .main__form {
     height: 15.96rem;
     flex-shrink: 0;
@@ -269,13 +274,9 @@ body {
     width: 18.12rem;
     height: 2.85rem;
     padding-left: 0.85rem;
+    margin: 0.3rem;
 }
 
-.form__input-file:hover,
-.form__input-file:focus {
-    color: var(--primary-color);
-    cursor: pointer;
-}
 
 .form__submit-btn {
     position: relative;
@@ -327,18 +328,6 @@ body {
     color: var(--primary-color);
 }
 
-.main__auth-data {
-    height: 26.08rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    text-align: left;
-    font-size: 4rem;
-    gap: 1rem;
-    color: var(--text-color);
-    font-family: var(--paragraph);
-}
 .logo {
     position: relative;
     width: 22.75rem;
@@ -347,6 +336,19 @@ body {
     object-fit: cover;
 }
 
+.ref-text {
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    color: #504D60;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 2vh;
+}
+
+.ref-text:hover {
+    color: #6CCC5D;
+}
 
 
 /*Mobile version styles*/
