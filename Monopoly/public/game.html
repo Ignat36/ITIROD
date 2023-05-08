@@ -1,18 +1,357 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Monopoly</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="js/script.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/game.css" />
+    <title>Game</title>
 </head>
 <body>
-<div id="game-board-container">
-    <div id="game-board"></div>
-    <div class="text-container">
-        <div id="text-box">
-            <h1>Text Over Grid</h1>
+<main class="game__main">
+    <ul class="side-players__ul">
+        <li class="side-players__li">
+            <div class="side-player-view">
+                <div class="circle-img-shape">
+                    <img src="img/dice5.png" alt="Profile picture">
+                </div>
+                <strong class="side-player-name__text"><b>You</b></strong>
+                <strong class="side-player-money__text"><b>You</b></strong>
+            </div>
+        </li>
+        <li class="side-players__li">
+            <div class="side-player-view">
+                <div class="circle-img-shape">
+                    <img src="img/dice5.png" alt="Profile picture">
+                </div>
+                <strong class="side-player-name__text"><b>You</b></strong>
+                <strong class="side-player-money__text"><b>You</b></strong>
+            </div>
+        </li>
+    </ul>
+    <div class="square-container">
+        <ul class="board-row__ul">
+            <li id="cell-1" class="corner-cell">
+                <div class="cell">
+                    <img src="img/cell1.png" alt="Go">
+                </div>
+            </li>
+            <li id="cell-2" class="row-cell">
+                <div class="price">
+                    <b class="price-text">600k</b>
+                </div>
+                <div class="cell">
+                    <img src="img/chanel.png" alt="Chanel">
+                </div>
+            </li>
+            <li id="cell-3" class="row-cell">
+                <div class="price">
+                    <b class="price-text"></b>
+                </div>
+                <div class="cell">
+                    <img src="img/chance.png" alt="Chance">
+                </div>
+            </li>
+            <li id="cell-4" class="row-cell">
+                <div class="price">
+                    <b class="price-text">600k</b>
+                </div>
+                <div class="cell">
+                    <img src="img/boss.png" alt="Boss">
+                </div>
+            </li>
+            <li id="cell-5" class="row-cell">
+                <div class="price">
+                    <b class="price-text"></b>
+                </div>
+                <div class="cell">
+                    <img src="img/cell5.png" alt="Taxes">
+                </div>
+            </li>
+            <li id="cell-6" class="row-cell">
+                <div class="price">
+                    <b class="price-text">2,000k</b>
+                </div>
+                <div class="cell">
+                    <img src="img/mercedes.png" alt="Mercedes">
+                </div>
+            </li>
+            <li id="cell-7" class="row-cell">
+                <div class="price">
+                    <b class="price-text">1,000k</b>
+                </div>
+                <div class="cell">
+                    <img src="img/adidas.png" alt="Adidas">
+                </div>
+            </li>
+            <li id="cell-8" class="row-cell">
+                <div class="price">
+                    <b class="price-text"></b>
+                </div>
+                <div class="cell">
+                    <img src="img/chance.png" alt="Chance">
+                </div>
+            </li>
+            <li id="cell-9" class="row-cell">
+                <div class="price">
+                    <b class="price-text">1,000k</b>
+                </div>
+                <div class="cell">
+                    <img src="img/puma.png" alt="Puma">
+                </div>
+            </li>
+            <li id="cell-10" class="row-cell">
+                <div class="price">
+                    <b class="price-text">1,200k</b>
+                </div>
+                <div class="cell">
+                    <img src="img/lacoste.png" alt="Lacoste">
+                </div>
+            </li>
+            <li id="cell-11" class="corner-cell">
+                <div class="cell">
+                    <img src="img/jail.png" alt="Jail">
+                </div>
+            </li>
+        </ul>
+        <div class="middle-board-block__div">
+            <ul class="board-column__ul" id="col-left">
+                <li id="cell-40" class="column-cell">
+                    <div class="price">
+                        <b class="price-text">4,000k</b>
+                    </div>
+                    <div class="cell">
+                        <img src="img/nokia.png" alt="Nokia">
+                    </div>
+                </li>
+                <li id="cell-39" class="column-cell">
+                    <div class="price">
+                        <b class="price-text"></b>
+                    </div>
+                    <div class="cell">
+                        <img src="img/leftchance.png" alt="Chance">
+                    </div>
+                </li>
+                <li id="cell-38" class="column-cell">
+                    <div class="price">
+                        <b class="price-text">3,500k</b>
+                    </div>
+                    <div class="cell">
+                        <img src="img/apple.png" alt="Apple">
+                    </div>
+                </li>
+                <li id="cell-37" class="column-cell">
+                    <div class="price">
+                        <b class="price-text"></b>
+                    </div>
+                    <div class="cell">
+                        <img src="img/cell37.png" alt="Taxes">
+                    </div>
+                </li>
+                <li id="cell-36" class="column-cell">
+                    <div class="price">
+                        <b class="price-text">2,000k</b>
+                    </div>
+                    <div class="cell">
+                        <img src="img/landrover.png" alt="LandRover">
+                    </div>
+                </li>
+                <li id="cell-35" class="column-cell">
+                    <div class="price">
+                        <b class="price-text">3,200k</b>
+                    </div>
+                    <div class="cell">
+                        <img src="img/novotel.png" alt="Novotel">
+                    </div>
+                </li>
+                <li id="cell-34" class="column-cell">
+                    <div class="price">
+                        <b class="price-text"></b>
+                    </div>
+                    <div class="cell">
+                        <img src="img/leftchance.png" alt="Chance">
+                    </div>
+                </li>
+                <li id="cell-33" class="column-cell">
+                    <div class="price">
+                        <b class="price-text">3,000k</b>
+                    </div>
+                    <div class="cell">
+                        <img src="img/radisson.png" alt="Radisson">
+                    </div>
+                </li>
+                <li id="cell-32" class="column-cell">
+                    <div class="price">
+                        <b class="price-text">3,000k</b>
+                    </div>
+                    <div class="cell">
+                        <img src="img/holidayinn.png" alt="HolidayInn">
+                    </div>
+                </li>
+            </ul>
+            <div class="info-section">
+
+            </div>
+            <ul class="board-column__ul" id="col-right">
+                <li id="cell-12" class="column-cell">
+                    <div class="cell">
+                        <img src="img/vk.png" alt="VK">
+                    </div>
+                    <div class="price">
+                        <b class="price-text">1,400k</b>
+                    </div>
+                </li>
+                <li id="cell-13" class="column-cell">
+                    <div class="cell">
+                        <img src="img/rockstar.png" alt="RockStar">
+                    </div>
+                    <div class="price">
+                        <b class="price-text">1,500k</b>
+                    </div>
+                </li>
+                <li id="cell-14" class="column-cell">
+                    <div class="cell">
+                        <img src="img/facebook.png" alt="Facebook">
+                    </div>
+                    <div class="price">
+                        <b class="price-text">1,400k</b>
+                    </div>
+                </li>
+                <li id="cell-15" class="column-cell">
+                    <div class="cell">
+                        <img src="img/twitter.png" alt="Twitter">
+                    </div>
+                    <div class="price">
+                        <b class="price-text">1,600k</b>
+                    </div>
+                </li>
+                <li id="cell-16" class="column-cell">
+                    <div class="cell">
+                        <img src="img/audi.png" alt="Audi">
+                    </div>
+                    <div class="price">
+                        <b class="price-text">2,000k</b>
+                    </div>
+                </li>
+                <li id="cell-17" class="column-cell">
+                    <div class="cell">
+                        <img src="img/cocacola.png" alt="CocaCola">
+                    </div>
+                    <div class="price">
+                        <b class="price-text">1,800k</b>
+                    </div>
+                </li>
+                <li id="cell-18" class="column-cell">
+                    <div class="cell">
+                        <img src="img/rightchance.png" alt="Chance">
+                    </div>
+                    <div class="price">
+                        <b class="price-text"></b>
+                    </div>
+                </li>
+                <li id="cell-19" class="column-cell">
+                    <div class="cell">
+                        <img src="img/pepsi.png" alt="Pepsi">
+                    </div>
+                    <div class="price">
+                        <b class="price-text">1,800k</b>
+                    </div>
+                </li>
+                <li id="cell-20" class="column-cell">
+                    <div class="cell">
+                        <img src="img/fanta.png" alt="Fanta">
+                    </div>
+                    <div class="price">
+                        <b class="price-text">2,000k</b>
+                    </div>
+                </li>
+            </ul>
         </div>
+        <ul class="board-row__ul">
+            <li id="cell-31" class="corner-cell">
+                <div class="cell">
+                    <img src="img/gotojail.png" alt="Go-to-jail">
+                </div>
+            </li>
+            <li id="cell-30" class="row-cell">
+                <div class="cell">
+                    <img src="img/kfc.png" alt="KFC">
+                </div>
+                <div class="price">
+                    <b class="price-text">2,800k</b>
+                </div>
+            </li>
+            <li id="cell-29" class="row-cell">
+                <div class="cell">
+                    <img src="img/rovio.png" alt="Rovio">
+                </div>
+                <div class="price">
+                    <b class="price-text">1,500k</b>
+                </div>
+            </li>
+            <li id="cell-28" class="row-cell">
+                <div class="cell">
+                    <img src="img/burgerking.png" alt="BurgerKing">
+                </div>
+                <div class="price">
+                    <b class="price-text">2,600k</b>
+                </div>
+            </li>
+            <li id="cell-27" class="row-cell">
+                <div class="cell">
+                    <img src="img/mcdonalds.png" alt="McDonalds">
+                </div>
+                <div class="price">
+                    <b class="price-text">2,600k</b>
+                </div>
+            </li>
+            <li id="cell-26" class="row-cell">
+                <div class="cell">
+                    <img src="img/ford.png" alt="Ford">
+                </div>
+                <div class="price">
+                    <b class="price-text">2,000k</b>
+                </div>
+            </li>
+            <li id="cell-25" class="row-cell">
+                <div class="cell">
+                    <img src="img/britishairways.png" alt="BritishAirways">
+                </div>
+                <div class="price">
+                    <b class="price-text">2,400k</b>
+                </div>
+            </li>
+            <li id="cell-24" class="row-cell">
+                <div class="cell">
+                    <img src="img/lufthansa.png" alt="Lufthansa">
+                </div>
+                <div class="price">
+                    <b class="price-text">2,200k</b>
+                </div>
+            </li>
+            <li id="cell-23" class="row-cell">
+                <div class="cell">
+                    <img src="img/chance.png" alt="Chance">
+                </div>
+                <div class="price">
+                    <b class="price-text"></b>
+                </div>
+            </li>
+            <li id="cell-22" class="row-cell">
+                <div class="cell">
+                    <img src="img/americanairlines.png" alt="AmericanAirlines">
+                </div>
+                <div class="price">
+                    <b class="price-text">2,200k</b>
+                </div>
+            </li>
+            <li id="cell-21" class="corner-cell">
+                <div class="cell">
+                    <img src="img/jackpot.png" alt="Jackpot">
+                </div>
+            </li>
+        </ul>
     </div>
-</div>
+</main>
 </body>
 </html>

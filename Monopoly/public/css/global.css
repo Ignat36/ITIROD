@@ -265,6 +265,10 @@ body {
     justify-content: space-between;
 }
 
+.hidden {
+    display: none;
+}
+
 .form__input-field {
     border: 0;
     border-bottom: 0.2rem  solid var(--text-color);
@@ -343,7 +347,7 @@ body {
     color: #504D60;
     font-weight: bold;
     cursor: pointer;
-    font-size: 2vh;
+    font-size: 1.2rem;
 }
 
 .ref-text:hover {

@@ -6,6 +6,10 @@
     flex-direction: column;
 }
 
+.available-game__text {
+    color: #ecdddd;
+}
+
 .index-current-game__section {
     background-color: #ECDDDD;
 }
@@ -41,6 +45,7 @@
 
 /* Profile section */
 .profile__section {
+    height: 30.45rem;
     padding: 10px;
     justify-content: center;
     align-items: center;
@@ -159,10 +164,11 @@
 .available-game__wrapper {
     background-color: #504D60;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     padding: 10px;
+    border-radius: 6rem;
 }
 
 .available-game__ul {
@@ -185,7 +191,7 @@
     gap: 10px;
     overflow-x: hidden;
     overflow-y: scroll;
-    height: 70vh;
+    height: 65vh;
 }
 
 .games-list__ul::-webkit-scrollbar {
@@ -322,6 +328,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0.5rem;
+}
+
+
+.profile__section-view-code {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid black;
+    padding: 0;
 }
 
 .profile-circle-img-shape {
@@ -331,11 +347,18 @@
     height: 200px; /* adjust as needed */
 }
 
+.profile-circle-img-shape img {
+    border-radius: 50%;
+    overflow: hidden;
+    width: 200px; /* adjust as needed */
+    height: 200px; /* adjust as needed */
+}
+
 .circle-img-shape {
     border-radius: 50%;
     overflow: hidden;
-    width: 100px; /* adjust as needed */
-    height: 100px; /* adjust as needed */
+    width: 5rem; /* adjust as needed */
+    height: 5rem; /* adjust as needed */
 }
 
 .circle-img-shape img {

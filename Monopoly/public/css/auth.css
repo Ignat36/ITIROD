@@ -1,47 +1,92 @@
-
-.auth__body {
-    background-color: #504D60;
+* {
+    padding: 0px;
+    margin: 0px;
 }
 
-.auth-data__main {
+body {
+    background-color:#504d60;
+    min-width: 370px;
+}
+
+header {
+    background-color: black;
+    border-bottom: 1px solid #c6c6c8;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #ECDDDD;
+}
+
+.header__nav {
     padding: 10px;
+    margin: 10px;
+    font-size: 22px;
+    color: black;
+}
+
+.container {
+    background-color: #ECDDDD;
+    margin: 150px auto;
+    padding: 15px 25px;
+    max-width: 370px;
+    width: 100%;
 }
 
 .auth-data__header {
+    text-align: center;
+    padding-top: 5px;
+}
+
+.main__form {
+    padding-top: 25px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
     flex-direction: column;
-    white-space: nowrap;
-    font-weight: bold;
-    margin-right: 10px;
-    font-size: 5vh;
-    padding-left: 1vw;
-}
-
-
-/*Page-Signup__Main*/
-.page-signin__main {
-    justify-content: center;
     align-items: center;
-    height: 100%;
-    padding: 15vh;
+    justify-content: space-between;
 }
 
-.auth-data__section {
-    background-color: #ECDDDD;
-    width: fit-content;
-    border: 3vh solid #ECDDDD;
-}
-
-.auth__main_div {
+.form__input-field {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+    border: none;
+    border: 1px solid gray;
+    border-bottom: 0.2rem  solid #252b42;
+    padding: 7px;
+    background-color: #ebebeb;
+    font-size: 1.12rem;
+    padding-left: 0.85rem;
+    width: 94%;
+    margin-bottom: 10px;
 }
 
+.form__submit-btn {
+    background-color: #354545;;
+    border: none;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 100%;
+    margin-bottom: 15px;
+    margin-top: 10px;
+}
+
+/* Media queries for different screen sizes */
+@media only screen and (max-width: 600px) {
+    .container {
+        max-width: 330px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .container {
+        max-width: 300px;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .container {
+        max-width: 270px;
+    }
+}

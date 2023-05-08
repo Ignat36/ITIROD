@@ -1,48 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Authorization</title>
-    <link rel="stylesheet" href="css/auth.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/auth.css" type="text/css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="css/global.css"/>
+    <title>Authorization</title>
 </head>
-<body class="auth__body">
-<header class="header__nav">
-    <nav class="header__title">
-        <strong>
-            <b>Monopoly</b>
-        </strong>
-    </nav>
-</header>
-<main class="page-signin__main">
-    <div class="auth__main_div">
-        <section class="auth-data__section">
-            <header class="auth-data__header">
-                <b>Authorization</b>
-            </header>
-            <main class="auth-data__main">
-                <form class="main__form" action="index.html" method="get" id="regiForm" name="signup">
-                    <input
-                            class="form__input-field"
-                            id="username"
-                            type="text"
-                            placeholder="Username"
-                            required/>
-                    <input
-                            class="form__input-field"
-                            id="pass"
-                            type="password"
-                            placeholder="Password"
-                            minlength="8"
-                            required/>
-                    <button class="form__submit-btn" type="submit">
-                        <b class="submit-btn__text">Sign In</b>
-                    </button>
-                    <strong><b>OR</b></strong>
-                    <a href="registration.html" class="ref-text">Sign Up</a>
-                </form>
-            </main>
-        </section>
+
+<body>
+<header>
+    <div class="header__nav">
+        <b>Monopoly</b>
     </div>
-</main>
+</header>
+<div class="container">
+    <div class="login-page">
+        <h1 class="auth-data__header">Authorization</h1>
+        <form class="main__form">
+            <input
+                    class="form__input-field"
+                    id="username"
+                    type="text"
+                    placeholder="Username"
+                    required/>
+            <input
+                    class="form__input-field"
+                    id="pass"
+                    type="password"
+                    placeholder="Password"
+                    minlength="8"
+                    required/>
+
+            <button class="form__submit-btn" type="submit">
+                <b class="submit-btn__text">Sign In</b>
+            </button>
+            <strong><b>OR</b></strong>
+            <a href="registration.html" class="ref-text">Sign Up</a>
+        </form>
+    </div>
+</div>
 </body>
 </html>
