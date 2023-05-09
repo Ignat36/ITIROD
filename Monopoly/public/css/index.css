@@ -43,6 +43,7 @@
     width: 90%;
     display: flex;
     justify-content: center;
+    cursor: pointer;
 }
 
 /* Profile section */
@@ -113,6 +114,7 @@
     display: flex;
     flex-direction: column;
     margin: 2%;
+    max-width: 580px;
 }
 
 .index__main {
@@ -129,6 +131,7 @@
     flex-direction: column;
     padding: 1%;
     margin: 1%;
+    max-width: 320px;
 }
 
 .game-connection__form {
@@ -426,6 +429,8 @@
     height: 50%;
     background-color: #c7b4b4;
     margin: 1%;
+    max-width: 80px;
+    max-height: 480px;
 }
 
 .form__input-field {
@@ -509,5 +514,12 @@
     .header__nav {
         height: 5%;
         font-size: 3vh;
+    }
+
+    .checkbox input[type="radio"],
+    .checkbox input[type="checkbox"] {
+        width: 3vw;
+        height: 3vw;
+        margin-right: 10px;
     }
 }
