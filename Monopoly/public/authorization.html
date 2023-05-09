@@ -18,12 +18,12 @@
 <div class="container">
     <div class="login-page">
         <h1 class="auth-data__header">Authorization</h1>
-        <form class="main__form">
+        <form id="authForm" class="main__form" name="signin">
             <input
                     class="form__input-field"
-                    id="username"
-                    type="text"
-                    placeholder="Username"
+                    id="email"
+                    type="email"
+                    placeholder="Email"
                     required/>
             <input
                     class="form__input-field"
@@ -41,5 +41,6 @@
         </form>
     </div>
 </div>
+<script type="module" src="js/auth.mjs"></script>
 </body>
 </html>

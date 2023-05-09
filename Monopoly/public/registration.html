@@ -18,12 +18,12 @@
 <div class="container">
     <div class="login-page">
         <h1 class="auth-data__header">Registration</h1>
-        <form class="main__form">
+        <form id="authForm" class="main__form" name="signup">
             <input
                     class="form__input-field"
-                    id="username"
-                    type="text"
-                    placeholder="Username"
+                    id="email"
+                    type="email"
+                    placeholder="Email"
                     required/>
             <input
                     class="form__input-field"
@@ -34,7 +34,7 @@
                     required/>
             <input
                     class="form__input-field"
-                    id="rep-pass"
+                    id="pass--rep"
                     type="password"
                     placeholder="Repeat password"
                     minlength="8"
@@ -48,5 +48,6 @@
         </form>
     </div>
 </div>
+<script type="module" src="js/auth.mjs"></script>
 </body>
 </html>

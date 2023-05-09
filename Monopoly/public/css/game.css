@@ -327,6 +327,8 @@ body {
     width: 67.9144385%;
 }
 
+
+
 @media (orientation: portrait) {
     .game__main {
         display: flex;
