@@ -103,15 +103,6 @@ body {
     object-fit: cover;
 }
 
-.main__form {
-    height: 15.96rem;
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-}
-
 .hidden {
     display: none;
 }

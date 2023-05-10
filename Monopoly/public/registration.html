@@ -27,6 +27,12 @@
                     required/>
             <input
                     class="form__input-field"
+                    id="username"
+                    type="text"
+                    placeholder="Username"
+                    required/>
+            <input
+                    class="form__input-field"
                     id="pass"
                     type="password"
                     placeholder="Password"
@@ -39,7 +45,8 @@
                     placeholder="Repeat password"
                     minlength="8"
                     required/>
-
+            <input class="hidden" type="file" id="avatar" accept="image/*"/>
+            <label class="paragraph form__input-file" for="avatar">Click to upload the avatar</label>
             <button class="form__submit-btn" type="submit">
                 <b class="submit-btn__text">Sign Up</b>
             </button>

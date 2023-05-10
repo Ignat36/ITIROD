@@ -1,14 +1,38 @@
 import module from "./firebase.mjs"
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js";
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile} from "https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js";
 import {ref, uploadBytes, getDownloadURL, listAll} from "https://www.gstatic.com/firebasejs/9.18.0/firebase-storage.js";
 
 // Initialize Firebase
 const auth = module.auth;
 const storage = module.storage;
 
-function authenticate(auth, emailValue, passValue, formName) {
+function createUser(auth, email, password, username) {
+    return createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Get the newly created user
+            const user = userCredential.user;
+
+            // Set the username in the user profile
+            return updateProfile(user, { displayName: username })
+                .then(() => {
+                    // Return the user credential
+                    return userCredential;
+                })
+                .catch((error) => {
+                    // Handle the error if updating the profile fails
+                    throw error;
+                });
+        })
+        .catch((error) => {
+            // Handle the error if creating the user account fails
+            throw error;
+        });
+}
+
+
+function authenticate(auth, emailValue, passValue, formName, username) {
     if (formName === "signup") {
-        return createUserWithEmailAndPassword(auth, emailValue, passValue);
+        return createUser(auth, emailValue, passValue, username);
     } else if (formName === "signin") {
         return signInWithEmailAndPassword(auth, emailValue, passValue);
     }
@@ -21,6 +45,7 @@ authForm.addEventListener('submit', (e) => {
     const formName = authForm.getAttribute("name");
     const email = document.getElementById('email');
     const pass = document.getElementById('pass');
+    let username = document.getElementById('username'); username = username === null ? "" : username;
     const passRepeat = document.getElementById('pass--rep');
     const avatar = document.getElementById('avatar');
 
@@ -34,7 +59,7 @@ authForm.addEventListener('submit', (e) => {
         }
     }
 
-    authenticate(auth, email.value, pass.value, formName)
+    authenticate(auth, email.value, pass.value, formName, username.value)
         .then((userCredential) => {
             const user = userCredential.user;
 
@@ -44,7 +69,7 @@ authForm.addEventListener('submit', (e) => {
             expires = "; expires=" + date.toUTCString();
 
             document.cookie = "user-id" + "=" + (user.uid || "") + expires + "; path=/";
-            document.cookie = "username" + "=" + (email.value.split("@")[0] || "") + expires + "; path=/";
+            document.cookie = "username" + "=" + (user.displayName || "") + expires + "; path=/";
 
             if (formName === "signup") {
                 console.log('User account created: ', user.uid);

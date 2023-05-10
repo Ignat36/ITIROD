@@ -13,7 +13,7 @@
         <b style="align-self: center">Monopoly</b>
         <dic style="align-self: end">
             <a href="game.html" class="ref-text" >Game</a>
-            <a href="authorization.html" class="ref-text" style="align-self: end">Sign Out</a>
+            <a id="sign-out-link" href="authorization.html" class="ref-text" style="align-self: end">Sign Out</a>
         </dic>
     </div>
 </header>
@@ -26,9 +26,9 @@
             <main class="profile__section-main">
                 <div class="profile__section-view">
                     <div class="profile-circle-img-shape">
-                        <img src="img/dice5.png" alt="Profile picture">
+                        <img src="img/chance.png" alt="Profile picture" id="avatar">
                     </div>
-                    <strong class="profile__section-header"><b>You</b></strong>
+                    <strong class="profile__section-header" id="username">You</strong>
                 </div>
                 <table class="profile__table profile-text">
                     <tr class="profile__table-row">
@@ -269,7 +269,7 @@
             </ul>
         </main>
     </section>
-    <section class="sidebar">
+    <section id="current-game" class="sidebar hidden">
         <main class="index-current-game__section-main">
             <ul class="current-game__ul">
                 <li class="current-game__li">
@@ -313,5 +313,6 @@
         </footer>
     </section>
 </main>
+<script type="module" src="js/index.mjs"></script>
 </body>
 </html>

@@ -1,3 +1,25 @@
+.hidden {
+    display: none;
+}
+
+.paragraph {
+    position: relative;
+    letter-spacing: 0.2px;
+    line-height: 1.63rem;
+    color: var(--text-color);
+    text-align: left;
+
+    font-size: var(--paragraph-size);
+    font-weight: 500;
+    font-family: var(--paragraph);
+}
+
+.form__input-file:hover,
+.form__input-file:focus {
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
 * {
     padding: 0px;
     margin: 0px;
@@ -10,10 +32,11 @@ body {
 
 .container {
     background-color: #ECDDDD;
-    margin: 150px auto;
+    margin: 10vh auto;
     padding: 15px 25px;
     max-width: 370px;
     width: 100%;
+    height: auto;
 }
 
 .auth-data__header {
