@@ -1,10 +1,15 @@
 import module from "./firebase.mjs"
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile} from "https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js";
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js";
 import {ref, uploadBytes, getDownloadURL, listAll} from "https://www.gstatic.com/firebasejs/9.18.0/firebase-storage.js";
+import {
+    collection, doc, getDoc, getDocs, increment, setDoc, updateDoc
+} from "https://www.gstatic.com/firebasejs/9.18.0/firebase-firestore.js"
 
 // Initialize Firebase
 const auth = module.auth;
 const storage = module.storage;
+const db = module.db;
+const usersRef = collection(db, "users");
 
 function createUser(auth, email, password, username) {
     return createUserWithEmailAndPassword(auth, email, password)
@@ -12,16 +17,15 @@ function createUser(auth, email, password, username) {
             // Get the newly created user
             const user = userCredential.user;
 
-            // Set the username in the user profile
-            return updateProfile(user, { displayName: username })
-                .then(() => {
-                    // Return the user credential
-                    return userCredential;
-                })
-                .catch((error) => {
-                    // Handle the error if updating the profile fails
-                    throw error;
-                });
+            const userDocRef = doc(usersRef, user.uid);
+            setDoc(userDocRef, {
+                uid: user.uid,
+                username: username,
+                wins: 0,
+                games: 0
+            });
+
+            return userCredential;
         })
         .catch((error) => {
             // Handle the error if creating the user account fails

@@ -482,44 +482,106 @@
         max-width: 160px;
     }
 
+    @media screen and (max-width: 900px) {
+        .circle-img-shape {
+            border-radius: 50%;
+            overflow: hidden;
+            width: 3rem;
+            height: 3rem;
+        }
+        .available-game__wrapper {
+            border-radius: 3rem;
+        }
+
+        .profile-text {
+            font-size: 2vh;
+        }
+
+        .profile__section-header {
+            font-size: 2vh;
+        }
+
+        .form__input-field {
+            height: 1.2rem;
+        }
+
+        .submit-btn__text {
+            font-size: 1.5vh;
+        }
+
+        .header__nav {
+            height: 5%;
+            font-size: 3vh;
+        }
+
+        .checkbox input[type="radio"],
+        .checkbox input[type="checkbox"] {
+            width: 3vw;
+            height: 3vw;
+            margin-right: 10px;
+        }
+    }
 }
 
-@media screen and (max-width: 900px) {
-    .circle-img-shape {
-        border-radius: 50%;
-        overflow: hidden;
-        width: 3rem;
-        height: 3rem;
-    }
-    .available-game__wrapper {
-        border-radius: 3rem;
-    }
+@media (orientation: landscape) {
+    @media screen and (max-height: 900px) {
+        .circle-img-shape {
+            border-radius: 50%;
+            overflow: hidden;
+            width: 2rem;
+            height: 2rem;
+        }
+        .available-game__wrapper {
+            border-radius: 3rem;
+        }
 
-    .profile-text {
-        font-size: 2vh;
-    }
+        .profile-text {
+            font-size: 2vw;
+        }
 
-    .profile__section-header {
-        font-size: 2vh;
-    }
+        .profile__section-header {
+            font-size: 2vw;
+        }
 
-    .form__input-field {
-        height: 1.2rem;
-    }
+        .form__input-field {
+            height: 1.2rem;
+        }
 
-    .submit-btn__text {
-        font-size: 1.5vh;
-    }
+        .submit-btn__text {
+            font-size: 1.5vw;
+        }
 
-    .header__nav {
-        height: 5%;
-        font-size: 3vh;
-    }
+        .header__nav {
+            height: 5%;
+            font-size: 3vw;
+        }
 
-    .checkbox input[type="radio"],
-    .checkbox input[type="checkbox"] {
-        width: 3vw;
-        height: 3vw;
-        margin-right: 10px;
+        .checkbox input[type="radio"],
+        .checkbox input[type="checkbox"] {
+            width: 3vw;
+            height: 3vw;
+            margin-right: 10px;
+        }
+
+        .profile-circle-img-shape {
+            width: 100px;
+            height: 100px;
+        }
+
+        .available-game__text {
+            font-size: 1.5vw;
+        }
+
+        .available-games__strong {
+            font-size: 2vw;
+        }
+
+        .checkbox__label {
+            font-size: 2vw;
+        }
+
+        .form__input-field {
+            font-size: 2vw;
+        }
     }
 }
