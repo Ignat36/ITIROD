@@ -71,7 +71,7 @@
                 <strong>Available</strong>
                 <strong>Games:</strong>
             </div>
-            <form class="create-game-form">
+            <form id="createGameForm" class="create-game-form" name="createnew">
                 <div class="form__submit-btn-wrapper">
                     <button type="submit" class="form__submit-btn">
                         <b class="submit-btn__text">Create Game</b>
@@ -79,15 +79,15 @@
                 </div>
                 <div class="form__checkboxes-wrapper">
                     <div class="checkbox">
-                        <input type="radio" id="2-players" name="players" value="2-players" checked>
+                        <input type="radio" id="2-players" name="players" value="2" checked>
                         <label for="2-players" class="checkbox__label">2</label>
                     </div>
                     <div class="checkbox">
-                        <input type="radio" id="3-players" name="players" value="3-players">
+                        <input type="radio" id="3-players" name="players" value="3">
                         <label for="3-players" class="checkbox__label">3</label>
                     </div>
                     <div class="checkbox">
-                        <input type="radio" id="4-players" name="players" value="4-players">
+                        <input type="radio" id="4-players" name="players" value="4">
                         <label for="4-players" class="checkbox__label">4</label>
                     </div>
                     <div class="checkbox">
@@ -98,7 +98,7 @@
             </form>
         </header>
         <main class="index-games__section-main">
-            <ul class="games-list__ul">
+            <ul id="lobbies" class="games-list__ul">
                 <li class="games-list__li">
                     <div class="available-game__wrapper">
                         <div class="profile__section-view-code">
@@ -115,154 +115,37 @@
                                 </div>
                             </li>
                             <li class="available-game__li">
-                                <div class="profile__section-view">
-                                    <div class="circle-img-shape">
-                                        <img src="img/dice5.png" alt="Profile picture">
+                                <label>
+                                    <input class="hidden" type="radio" name="game-option" onchange="handleRadioChange(event)">
+                                    <div class="profile__section-view">
+                                        <div class="circle-img-shape">
+                                            <img src="img/connect.png" alt="Profile picture">
+                                        </div>
+                                        <strong class="available-game__text"><b></b></strong>
                                     </div>
-                                    <strong class="available-game__text"><b>You</b></strong>
-                                </div>
+                                </label>
                             </li>
                             <li class="available-game__li">
-                                <div class="profile__section-view">
-                                    <div class="circle-img-shape">
-                                        <img src="img/dice5.png" alt="Profile picture">
+                                <label>
+                                    <input class="hidden" type="radio" name="game-option" onchange="handleRadioChange(event)">
+                                    <div class="profile__section-view">
+                                        <div class="circle-img-shape">
+                                            <img src="img/connect.png" alt="Profile picture">
+                                        </div>
+                                        <strong class="available-game__text"><b></b></strong>
                                     </div>
-                                    <strong class="available-game__text"><b>You</b></strong>
-                                </div>
+                                </label>
                             </li>
                             <li class="available-game__li">
-                                <div class="profile__section-view">
-                                    <div class="circle-img-shape">
-                                        <img src="img/dice5.png" alt="Profile picture">
+                                <label>
+                                    <input class="hidden" type="radio" name="game-option" onchange="handleRadioChange(event)">
+                                    <div class="profile__section-view">
+                                        <div class="circle-img-shape">
+                                            <img src="img/connect.png" alt="Profile picture">
+                                        </div>
+                                        <strong class="available-game__text"><b></b></strong>
                                     </div>
-                                    <strong class="available-game__text"><b>You</b></strong>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="games-list__li">
-                    <div class="available-game__wrapper">
-                        <div class="profile__section-view-code">
-                            <strong class="available-game__text"><b>Code:</b></strong><br>
-                            <strong class="available-game__text"><b>1aGp</b></strong>
-                        </div>
-                        <ul class="available-game__ul">
-                            <li class="available-game__li">
-                                <div class="profile__section-view">
-                                    <div class="circle-img-shape">
-                                        <img src="img/dice5.png" alt="Profile picture">
-                                    </div>
-                                    <strong class="available-game__text"><b>You</b></strong>
-                                </div>
-                            </li>
-                            <li class="available-game__li">
-                                <div class="profile__section-view">
-                                    <div class="circle-img-shape">
-                                        <img src="img/dice5.png" alt="Profile picture">
-                                    </div>
-                                    <strong class="available-game__text"><b>You</b></strong>
-                                </div>
-                            </li>
-                            <li class="available-game__li">
-                                <div class="profile__section-view">
-                                    <div class="circle-img-shape">
-                                        <img src="img/dice5.png" alt="Profile picture">
-                                    </div>
-                                    <strong class="available-game__text"><b>You</b></strong>
-                                </div>
-                            </li>
-                            <li class="available-game__li">
-                                <div class="profile__section-view">
-                                    <div class="circle-img-shape">
-                                        <img src="img/dice5.png" alt="Profile picture">
-                                    </div>
-                                    <strong class="available-game__text"><b>You</b></strong>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="games-list__li">
-                    <div class="available-game__wrapper">
-                        <div class="profile__section-view-code">
-                            <strong class="available-game__text"><b>Code:</b></strong><br>
-                            <strong class="available-game__text"><b>1aGp</b></strong>
-                        </div>
-                        <ul class="available-game__ul">
-                            <li class="available-game__li">
-                                <div class="profile__section-view">
-                                    <div class="circle-img-shape">
-                                        <img src="img/dice5.png" alt="Profile picture">
-                                    </div>
-                                    <strong class="available-game__text"><b>You</b></strong>
-                                </div>
-                            </li>
-                            <li class="available-game__li">
-                                <div class="profile__section-view">
-                                    <div class="circle-img-shape">
-                                        <img src="img/dice5.png" alt="Profile picture">
-                                    </div>
-                                    <strong class="available-game__text"><b>You</b></strong>
-                                </div>
-                            </li>
-                            <li class="available-game__li">
-                                <div class="profile__section-view">
-                                    <div class="circle-img-shape">
-                                        <img src="img/dice5.png" alt="Profile picture">
-                                    </div>
-                                    <strong class="available-game__text"><b>You</b></strong>
-                                </div>
-                            </li>
-                            <li class="available-game__li">
-                                <div class="profile__section-view">
-                                    <div class="circle-img-shape">
-                                        <img src="img/dice5.png" alt="Profile picture">
-                                    </div>
-                                    <strong class="available-game__text"><b>You</b></strong>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="games-list__li">
-                    <div class="available-game__wrapper">
-                        <div class="profile__section-view-code">
-                            <strong class="available-game__text"><b>Code:</b></strong><br>
-                            <strong class="available-game__text"><b>1aGp</b></strong>
-                        </div>
-                        <ul class="available-game__ul">
-                            <li class="available-game__li">
-                                <div class="profile__section-view">
-                                    <div class="circle-img-shape">
-                                        <img src="img/dice5.png" alt="Profile picture">
-                                    </div>
-                                    <strong class="available-game__text"><b>You</b></strong>
-                                </div>
-                            </li>
-                            <li class="available-game__li">
-                                <div class="profile__section-view">
-                                    <div class="circle-img-shape">
-                                        <img src="img/dice5.png" alt="Profile picture">
-                                    </div>
-                                    <strong class="available-game__text"><b>You</b></strong>
-                                </div>
-                            </li>
-                            <li class="available-game__li">
-                                <div class="profile__section-view">
-                                    <div class="circle-img-shape">
-                                        <img src="img/dice5.png" alt="Profile picture">
-                                    </div>
-                                    <strong class="available-game__text"><b>You</b></strong>
-                                </div>
-                            </li>
-                            <li class="available-game__li">
-                                <div class="profile__section-view">
-                                    <div class="circle-img-shape">
-                                        <img src="img/dice5.png" alt="Profile picture">
-                                    </div>
-                                    <strong class="available-game__text"><b>You</b></strong>
-                                </div>
+                                </label>
                             </li>
                         </ul>
                     </div>
@@ -308,7 +191,7 @@
             </ul>
         </main>
         <footer class="index-current-game__section-footer">
-            <button class="cur-game-form__submit-btn" type="submit">
+            <button id="leaveButton" class="cur-game-form__submit-btn" type="submit">
                 <b class="submit-btn__text">Leave</b>
             </button>
         </footer>

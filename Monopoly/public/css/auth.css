@@ -77,6 +77,7 @@ body {
     width: 100%;
     margin-bottom: 15px;
     margin-top: 10px;
+    cursor: pointer;
 }
 
 /* Media queries for different screen sizes */
