@@ -90,6 +90,7 @@ function loadCurrentGame() {
     const gid = getCookie("game-id");
     if (gid === null) return;
 
+    console.log(gid);
     const lobbyRef = ref(rdb, 'lobbies/' + gid);
     get(lobbyRef)
         .then((snapshot) => {
@@ -451,7 +452,7 @@ function leaveCurrentGame() {
         .then((snapshot) => {
             const currentData = snapshot.val();
             const updateData = { ...currentData };
-
+            document.cookie = "game-id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             if (updateData["p1"] === uid) {updateData["p1"] = "";}
             if (updateData["p2"] === uid) {updateData["p2"] = "";}
             if (updateData["p3"] === uid) {updateData["p3"] = "";}
@@ -470,7 +471,7 @@ function leaveCurrentGame() {
         })
         .then(() => {
             //console.log("Left game:", gid);
-            document.cookie = "game-id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
         })
         .catch((error) => {
             console.error("Error updating game record:", error);
@@ -601,7 +602,7 @@ onValue(ref(rdb, 'lobbies'), (snapshot) => {
 
 const leaveButton = document.getElementById('leaveButton');
 leaveButton.addEventListener('click', function () {
-    leaveCurrentGame();
     document.getElementById('current-game').classList.add('hidden');
+    leaveCurrentGame();
 });
 
