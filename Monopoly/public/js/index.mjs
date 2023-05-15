@@ -28,7 +28,7 @@ async function getUserRecord(uid) {
         if (userSnap.exists()) {
             return userSnap.data();
         } else {
-            console.log("User record does not exist.");
+            //console.log("User record does not exist.");
             return null;
         }
     } catch (error) {
@@ -86,7 +86,128 @@ signOutLink.addEventListener('click', (event) => {
 });
 
 function loadCurrentGame() {
-    document.getElementById('current-game').classList.toggle('hidden');
+
+    const gid = getCookie("game-id");
+    if (gid === null) return;
+
+    const lobbyRef = ref(rdb, 'lobbies/' + gid);
+    get(lobbyRef)
+        .then((snapshot) => {
+            const lobbyData = snapshot.val();
+
+            document.getElementById('current-game').classList.remove('hidden');
+
+            const ulElement = document.createElement('ul');
+            ulElement.classList.add('current-game__ul');
+
+            // Create the <div> element with class "profile__section-view-code"
+            const profileSectionViewCode = document.createElement('div');
+            profileSectionViewCode.className = 'profile__section-view-code';
+
+            // Create the <strong> element with class "available-game__text" and "code"
+            const codeStrong = document.createElement('strong');
+            codeStrong.className = 'var-text';
+            codeStrong.innerHTML = '<b>Code:</b><br>';
+
+            // Create the <strong> element with class "available-game__text" and "code-value"
+            const codeValueStrong = document.createElement('strong');
+            codeValueStrong.className = 'var-text';
+            codeValueStrong.innerHTML = `<b>${lobbyData.code}</b>`;
+
+            // Append the code elements to the profileSectionViewCode
+            profileSectionViewCode.appendChild(codeStrong);
+            profileSectionViewCode.appendChild(codeValueStrong);
+
+            let flag = 0;
+            for (let i = 0; i < lobbyData.count; i++) {
+                let pid = "";
+                switch (i) {
+                    case 0:
+                        pid = lobbyData.p1;
+                        if (pid !== "") flag++;
+                        break;
+                    case 1:
+                        pid = lobbyData.p2;
+                        if (pid !== "") flag++;
+                        break;
+                    case 2:
+                        pid = lobbyData.p3;
+                        if (pid !== "") flag++;
+                        break;
+                    case 3:
+                        pid = lobbyData.p4;
+                        if (pid !== "") flag++;
+                        break;
+                    default:
+                        console.error("too much");
+                        return;
+                }
+
+                const liElement = document.createElement('li');
+                liElement.classList.add('current-game__li');
+
+                const divElement = document.createElement('div');
+                divElement.classList.add('profile__section-view');
+
+                const circleImgShape = document.createElement('div');
+                circleImgShape.classList.add('circle-img-shape');
+
+                const imgElement = document.createElement('img');
+                if (pid === "") {
+                    imgElement.src = 'img/connect.png';
+                    imgElement.alt = 'Profile picture';
+                }
+                else {
+                    const pavatarRef = sref(storage,'avatars/' + pid);
+                    listAll(pavatarRef)
+                        .then((ares) => {
+                            // Get the first file in the list
+                            const fileRef = ares.items[0];
+
+                            // Get the download URL of the file
+                            getDownloadURL(fileRef)
+                                .then((url) => {
+                                    imgElement.src = url;
+                                    imgElement.alt = 'Profile picture';
+                                })
+                                .catch((error) => {
+                                    imgElement.src = 'img/chance.png';
+                                    imgElement.alt = 'Profile picture';
+                                });
+                        })
+                        .catch((error) => {
+                            imgElement.src = 'img/chance.png';
+                            imgElement.alt = 'Profile picture';
+                        });
+                }
+
+                const strongElement = document.createElement('strong');
+                strongElement.classList.add('var-text');
+
+                if (pid !== "") {
+                    getUserRecord(pid).then( (record) => {
+                        strongElement.textContent = record.username;
+                    });
+                }
+
+                circleImgShape.appendChild(imgElement);
+                divElement.appendChild(circleImgShape);
+                divElement.appendChild(strongElement);
+                liElement.appendChild(divElement);
+                ulElement.appendChild(liElement);
+            }
+
+            document.getElementById('current-game-list').innerHTML = "";
+            document.getElementById('current-game-list').appendChild(profileSectionViewCode);
+            document.getElementById('current-game-list').appendChild(ulElement);
+
+            if (flag === lobbyData.count) {
+                window.location.href = "game.html";
+            }
+        })
+        .catch((error) => {
+            console.error("Error loading current game:", error);
+        });
 }
 
 const createGameForm = document.getElementById('createGameForm');
@@ -125,7 +246,7 @@ createGameForm.addEventListener('submit', (e) => {
         p4: "",
     })
         .then(() => {
-            console.log("Created new game ", code);
+            //console.log("Created new game ", code);
         })
         .catch((error) => {
             console.error("Error creating new game", error);
@@ -133,6 +254,60 @@ createGameForm.addEventListener('submit', (e) => {
 
     document.cookie = "game-id" + "=" + (code || "") + expires + "; path=/";
     loadCurrentGame();
+});
+
+const connectGameForm = document.getElementById('connectGameForm');
+connectGameForm.addEventListener('submit', (e) => {
+    e.preventDefault(); // prevent default form submission
+
+    if (getCookie("user-id") == null) {
+        alert("You have to authorize to create lobby!");
+        return;
+    }
+
+    if (getCookie("game-id")) {
+        alert("You're already connected to game!");
+        return;
+    }
+
+    const inputField = document.getElementById('connection-code__input');
+    const code = inputField.value;
+    const uid = getCookie("user-id");
+
+    let date, expires;
+    date = new Date();
+    date.setTime(date.getTime() + 24 * 60 * 60 * 1000);
+    expires = "; expires=" + date.toUTCString();
+
+    const lobbyRef = ref(rdb, 'lobbies/' + code);
+    get(lobbyRef)
+        .then((snapshot) => {
+            const currentData = snapshot.val();
+
+            if (currentData === null) {
+                alert(`Game ${code} does not exists:(`);
+                return;
+            }
+
+            // Create a new object by copying the current data
+            const updateData = { ...currentData };
+
+            if (updateData["p1"] === "") {updateData["p1"] = uid;}
+            else if (updateData["p2"] === "") {updateData["p2"] = uid;}
+            else if (updateData["p3"] === "") {updateData["p3"] = uid;}
+            else if (updateData["p4"] === "") {updateData["p4"] = uid;}
+
+            // Update the lobby record in the Realtime Database
+            set(lobbyRef, updateData).then(() => {
+                document.cookie = "game-id" + "=" + (code || "") + expires + "; path=/";
+                loadCurrentGame();
+            })
+
+        })
+        .catch((error) => {
+            console.error("Error connecting", error);
+            return;
+        });
 });
 
 function createGameListItem(lobbyData) {
@@ -247,6 +422,9 @@ function createGameListItem(lobbyData) {
             availableGameLi.appendChild(label);
         }
         else {
+            getUserRecord(pid).then( (record) => {
+                textStrong.textContent = record.username;
+            });
             availableGameLi.appendChild(profileSectionView);
         }
 
@@ -291,7 +469,7 @@ function leaveCurrentGame() {
             }
         })
         .then(() => {
-            console.log("Left game:", gid);
+            //console.log("Left game:", gid);
             document.cookie = "game-id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         })
         .catch((error) => {
@@ -301,6 +479,12 @@ function leaveCurrentGame() {
 }
 
 function handleRadioChange(event) {
+
+    if (getCookie("user-id") == null) {
+        alert("You have to authorize to create lobby!");
+        return;
+    }
+
     const selectedOption = event.target.value;
     const isChecked = event.target.checked;
     const userId = getCookie("user-id");
@@ -331,6 +515,14 @@ function handleRadioChange(event) {
                 }
                 updateData['p' + playerIndex] = userId;
 
+                if (updateData["p1"] !== "" &&
+                    updateData["p2"] !== "" &&
+                    updateData["p3"] !== "" &&
+                    updateData["p4"] !== ""
+                ) {
+                    updateData["visible"] = false;
+                }
+
                 let date, expires;
                 date = new Date();
                 date.setTime(date.getTime() + 24 * 60 * 60 * 1000);
@@ -341,7 +533,6 @@ function handleRadioChange(event) {
             }
 
             // Update the lobby record in the Realtime Database
-            console.log(updateData);
             set(lobbyRef, updateData).then(() => {
                 loadCurrentGame();
             })
@@ -380,6 +571,8 @@ onValue(ref(rdb, 'lobbies'), (snapshot) => {
         // Compare the parsed dates
         return parsedDateA - parsedDateB;
     });
+
+    loadCurrentGame();
 
     // Iterate through the sorted child snapshots
     childSnapshots.forEach((childSnapshot) => {

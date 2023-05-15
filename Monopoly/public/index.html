@@ -50,13 +50,14 @@
                 </table>
             </main>
         </section>
-        <form class="game-connection__form">
+        <form id="connectGameForm" class="game-connection__form" name="connectbycode">
             <strong class="profile__section-header">Connect by code</strong>
             <input
                     class="form__input-field"
                     id="connection-code__input"
                     type="text"
                     placeholder="Connection code"
+                    name="code"
                     minlength="4"
                     maxlength="4"
                     required/>
@@ -154,7 +155,7 @@
         </main>
     </section>
     <section id="current-game" class="sidebar hidden">
-        <main class="index-current-game__section-main">
+        <main id="current-game-list" class="index-current-game__section-main">
             <ul class="current-game__ul">
                 <li class="current-game__li">
                     <div class="profile__section-view">
