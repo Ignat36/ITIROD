@@ -202,7 +202,8 @@ function loadCurrentGame() {
             document.getElementById('current-game-list').appendChild(profileSectionViewCode);
             document.getElementById('current-game-list').appendChild(ulElement);
 
-            if (flag === lobbyData.count) {
+            console.log(flag, lobbyData.count);
+            if (flag == lobbyData.count) {
                 window.location.href = "game.html";
             }
         })

@@ -190,7 +190,24 @@
                 </li>
             </ul>
             <div class="info-section">
-
+                <div class="action__div hidden">
+                    <string id="action-text">Your turn!</string>
+                    <div id="buttons" class="buttons-container">
+                        <button class="game-action__button" id="actionButton" type="submit">
+                            <b class="game-btn__text">Leave</b>
+                        </button>
+                    </div>
+                </div>
+                <ul id="log-msg" class="log-list">
+                    <li class="message" id="msg-1">
+                        <strong class="p1-name">You</strong>
+                        <strong class="game-msg">rolls 6:1</strong>
+                    </li>
+                    <li class="message" id="msg-2">
+                        <strong class="p1-name">Ignat</strong>
+                        <strong class="game-msg">buys twitter</strong>
+                    </li>
+                </ul>
             </div>
             <ul class="board-column__ul" id="col-right">
                 <li id="cell-12" class="column-cell">
