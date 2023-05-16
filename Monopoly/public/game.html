@@ -35,6 +35,12 @@
                 <div class="cell">
                     <img src="img/cell1.png" alt="Go">
                 </div>
+                <div class="circle-container">
+                    <div class="circle p1-circle"></div>
+                    <div class="circle p2-circle"></div>
+                    <div class="circle p3-circle"></div>
+                    <div class="circle p4-circle"></div>
+                </div>
             </li>
             <li id="cell-2" class="row-cell">
                 <div class="price">
@@ -42,6 +48,8 @@
                 </div>
                 <div class="cell">
                     <img src="img/chanel.png" alt="Chanel">
+                </div>
+                <div class="circle-container">
                 </div>
             </li>
             <li id="cell-3" class="row-cell">
@@ -123,6 +131,8 @@
                     <div class="cell">
                         <img src="img/nokia.png" alt="Nokia">
                     </div>
+                    <div class="circle-container">
+                    </div>
                 </li>
                 <li id="cell-39" class="column-cell">
                     <div class="price">
@@ -190,18 +200,18 @@
                 </li>
             </ul>
             <div class="info-section">
-                <div class="action__div">
+                <div id="actionBlock" class="action__div hidden">
                     <strong id="action-text">Your turn!</strong>
                     <div id="buttons" class="buttons-container">
-                        <button class="game-action__button-solo" id="actionButton" type="submit">
+                        <button class="game-action__button-solo hidden" id="rollDiceButton" type="submit">
                             <b class="game-btn__text">Roll the dice</b>
                         </button>
-                        <!--<button class="game-action__button-duo" id="actionButton1" type="submit">
+                        <button class="game-action__button-duo hidden" id="actionButton1" type="submit">
                             <b class="game-btn__text">Roll the dice</b>
                         </button>
-                        <button class="game-action__button-duo" id="actionButton2" type="submit">
+                        <button class="game-action__button-duo hidden" id="actionButton2" type="submit">
                             <b class="game-btn__text">Roll the dice</b>
-                        </button>-->
+                        </button>
                     </div>
                 </div>
                 <ul id="log-msg" class="log-list">
@@ -376,5 +386,6 @@
         </ul>
     </div>
 </main>
+<script type="module" src="js/game.mjs"></script>
 </body>
 </html>
