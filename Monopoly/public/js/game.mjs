@@ -67,9 +67,18 @@ window.addEventListener('load', function () {
 
 function tryMakeAction(events) {
     if (events.length > 0) {
+
         const e = events[0];
         currentEvent = e;
         const dat = e.val();
+
+        document.getElementById("player-1").classList.remove("p1");
+        document.getElementById("player-2").classList.remove("p2");
+        if (pcount > 2) document.getElementById("player-3").classList.remove("p3");
+        if (pcount > 3) document.getElementById("player-4").classList.remove("p4");
+
+        document.getElementById("player-" + dat.actor).classList.add("p"+dat.actor);
+
         if (dat.actor === pnum) {
             MakeAction(dat);
         }

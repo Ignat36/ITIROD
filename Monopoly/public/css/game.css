@@ -315,10 +315,6 @@ body {
     background-color: #8d8585;
 }
 
-
-#player-1 {
-    background-color: darkred;
-}
 #player-1 .circle-img-shape {
     border-color: darkred;
 }
