@@ -260,16 +260,16 @@ onValue(ref(rdb, 'cells/' + gid), (snapshot) => {
             hcell.classList.add("p"+cellData.owner);
         }
 
-        document.getElementById("cell-"+cell.key).querySelector(".price-text").innerHTML = "$" + cellData.price + "k";
+        document.getElementById("cell-"+cell.key).querySelector(".price-text").innerHTML = "$" + prettyMoney(  cellData.price ) + "k";
     });
 });
 
 onValue(ref(rdb, 'money/' + gid), (snapshot) => {
     moneyData = snapshot.val();
-    document.getElementById("player-1").querySelector(".side-player-money__text").innerHTML = "$" + moneyData.p1;
-    document.getElementById("player-2").querySelector(".side-player-money__text").innerHTML = "$" + moneyData.p2;
-    if (pcount > 2) document.getElementById("player-3").querySelector(".side-player-money__text").innerHTML = "$" + moneyData.p3;
-    if (pcount > 3) document.getElementById("player-4").querySelector(".side-player-money__text").innerHTML = "$" + moneyData.p4;
+    document.getElementById("player-1").querySelector(".side-player-money__text").innerHTML = "$" + prettyMoney( moneyData.p1 ) + "k";
+    document.getElementById("player-2").querySelector(".side-player-money__text").innerHTML = "$" + prettyMoney(  moneyData.p2 ) + "k";
+    if (pcount > 2) document.getElementById("player-3").querySelector(".side-player-money__text").innerHTML = "$" + prettyMoney( moneyData.p3 ) + "k";
+    if (pcount > 3) document.getElementById("player-4").querySelector(".side-player-money__text").innerHTML = "$" + prettyMoney(  moneyData.p4 ) + "k";
 });
 
 
@@ -376,7 +376,12 @@ onValue(ref(rdb, 'gameEvents/' + gid), (snapshot) => {
 
                     const playerMoney = document.createElement('strong');
                     playerMoney.classList.add('side-player-money__text');
-                    playerMoney.textContent = '$12,000k';
+
+                    get(ref(rdb, 'money/' + gid))
+                        .then( (snap) => {
+                            const moneyDat = snap.val();
+                            playerMoney.textContent = '$' + prettyMoney( moneyDat['p'+i] ) + 'k';
+                        });
 
                     // Assemble the elements
                     circleImgShape.appendChild(profileImg);
@@ -418,3 +423,15 @@ onValue(ref(rdb, 'gameEvents/' + gid), (snapshot) => {
 
     tryMakeAction(events);
 });
+
+function prettyMoney(money) {
+    const m = Number(money);
+    let minPart = m % 1000;
+    if (minPart < 10) {  minPart = "00" + minPart;}
+    else if (minPart < 100) {minPart = "0" + minPart;}
+    if (m >= 1000) {
+        return `${Math.floor(m / 1000)},${minPart}`;
+    } else {
+        return `${m}`;
+    }
+}
