@@ -62,20 +62,7 @@ function getCookie(name) {
 }
 
 window.addEventListener('load', function () {
-    if (pnum === 0) {
-        gid = getCookie("game-id");
-        pid = getCookie("user-id");
-        const lobbyRef = ref(rdb, 'lobbies/' + gid);
-        get(lobbyRef)
-            .then((snapshot) => {
-                const lobbyData = snapshot.val();
-                pcount = lobbyData.count;
-                if (lobbyData.p1 === pid) { pnum = 1 }
-                else if (lobbyData.p2 === pid) { pnum = 2 }
-                else if (lobbyData.p3 === pid) { pnum = 3 }
-                else if (lobbyData.p4 === pid) { pnum = 4 }
-            })
-    }
+
 });
 
 function tryMakeAction(events) {
@@ -83,7 +70,6 @@ function tryMakeAction(events) {
         const e = events[0];
         currentEvent = e;
         const dat = e.val();
-        console.log(dat, pnum);
         if (dat.actor === pnum) {
             MakeAction(dat);
         }
@@ -116,7 +102,6 @@ function MakeDiceRoll() {
 
 function AddMessage(msg) {
     const id = messages.length > 0 ?  Number(messages[0].key) + 1 : 1;
-    console.log(messages, id);
     const msgRef = ref(rdb, 'messages/' + gid + `/${id}`);
     set(msgRef, {
         message: msg,
@@ -130,20 +115,24 @@ function moveViewCount(start, count) {
 }
 
 function moveViewTo(fromCell, toCell, player) {
-    const fromCellElement = document.getElementById(`cell-${fromCell}`);
-    const toCellElement = document.getElementById(`cell-${toCell}`);
+    if (fromCell === toCell) { return; }
+    const oneMoreElement = (fromCell % 40) + 1;
+    const toCellElement = document.getElementById(`cell-${oneMoreElement}`);
 
-    const p2CircleElement = fromCellElement.querySelector(`.p${player}-circle`);
-    if (p2CircleElement) {
-        // Remove p2-circle from the current cell
-        p2CircleElement.remove();
+    const pCircleElements = document.querySelectorAll(`.p${player}-circle`);
+    pCircleElements.forEach( (pCircleElement) => {
+        pCircleElement.remove();
+    });
 
-        // Add p2-circle to the target cell
-        const circleContainer = toCellElement.querySelector('.circle-container');
-        if (circleContainer) {
-            circleContainer.appendChild(p2CircleElement);
-        }
+    const circleContainer = toCellElement.querySelector('.circle-container');
+    if (circleContainer) {
+        const pDiv = document.createElement("div");
+        pDiv.classList.add("circle");
+        pDiv.classList.add(`p${player}-circle`);
+        circleContainer.appendChild(pDiv);
     }
+
+    setTimeout(function () { moveViewTo(oneMoreElement, toCell, player)}, 300);
 }
 
 function moveAndReact(count, loopPrice = true) {
@@ -154,9 +143,10 @@ function moveAndReact(count, loopPrice = true) {
 
             // Create a new object by copying the current data
             const updateData = { ...currentData };
-            const newPos = (posData['p'+pnum] + count - 1) % 40 + 1;
+            const newPos = (Number(posData['p'+pnum]) + Number(count) - 1) % 40 + 1;
             if (posData['p'+pnum] + count - 1 >= 40 && loopPrice) { giveMoney(2000, pnum) }
             updateData['p'+ pnum] = newPos;
+            console.log(newPos, updateData);
 
             set(posRef, updateData);
 
@@ -197,7 +187,6 @@ function reactToCell(cellPosition) {
                 maxId = maxId < childSnapshot.key ? childSnapshot.key : maxId;
             });
             remove(ref(rdb, 'gameEvents/' + gid + `/${currentEvent.key}`));
-            console.log(maxId, currentEvent, pcount, currentEvent.val().actor);
             set(ref(rdb, 'gameEvents/' + gid + `/${Number(maxId)+1}`), {
                 actor: (currentEvent.val().actor % pcount) + 1,
                 type: "RollAndMove"
@@ -206,7 +195,7 @@ function reactToCell(cellPosition) {
 }
 
 function giveMoney(amount, player) {
-    const moneyRef = ref(rdb, 'positions/' + gid);
+    const moneyRef = ref(rdb, 'money/' + gid);
     get(moneyRef)
         .then((snapshot) => {
             const currentData = snapshot.val();
@@ -220,7 +209,7 @@ function giveMoney(amount, player) {
 }
 
 function takeMoney(amount, player) {
-    const moneyRef = ref(rdb, 'positions/' + gid);
+    const moneyRef = ref(rdb, 'money/' + gid);
     get(moneyRef)
         .then((snapshot) => {
             const currentData = snapshot.val();
@@ -238,6 +227,10 @@ function takeMoney(amount, player) {
 
 onValue(ref(rdb, 'positions/' + gid), (snapshot) => {
     const newPosData = snapshot.val();
+
+    if (pnum < 1) {
+        posData = newPosData;
+    }
     moveViewTo(posData.p1, newPosData.p1, 1);
     moveViewTo(posData.p2, newPosData.p2, 2);
     if (pcount > 2) moveViewTo(posData.p3, newPosData.p3, 3);
@@ -307,8 +300,8 @@ onValue(ref(rdb, 'messages/' + gid), (snapshot) => {
 });
 
 onValue(ref(rdb, 'gameEvents/' + gid), (snapshot) => {
-
     if (pnum === 0) {
+        pnum = -1;
         const lobbyRef = ref(rdb, 'lobbies/' + gid);
         get(lobbyRef)
             .then((lobbiesSnapshot) => {
@@ -319,14 +312,80 @@ onValue(ref(rdb, 'gameEvents/' + gid), (snapshot) => {
                 else if (lobbyData.p3 === pid) { pnum = 3 }
                 else if (lobbyData.p4 === pid) { pnum = 4 }
 
+                // Get the reference to the parent ul element
+                const ulElement = document.querySelector('.side-players__ul');
+                ulElement.innerHTML = "";
+
+                for (let i = 1; i <= lobbyData.count; i++) {
+
+                    const pcirc = document.createElement("div");
+                    pcirc.classList.add("circle");
+                    pcirc.classList.add(`p${i}-circle`);
+                    document.getElementById("cell-" + posData["p"+i]).querySelector(".circle-container")
+                        .appendChild(pcirc);
+
+                    // Create a list item element
+                    const liElement = document.createElement('li');
+                    liElement.setAttribute('id', 'player-' + i);
+                    liElement.classList.add('side-players__li');
+
+                    // Create the inner elements for the player view
+                    const playerView = document.createElement('div');
+                    playerView.classList.add('side-player-view');
+
+                    const circleImgShape = document.createElement('div');
+                    circleImgShape.classList.add('circle-img-shape');
+
+                    const playerName = document.createElement('strong');
+                    playerName.classList.add('side-player-name__text');
+
+                    const profileImg = document.createElement('img');
+                    profileImg.setAttribute('alt', 'Profile picture');
+
+                    const pavatarRef = sref(storage,'avatars/' + lobbyData["p"+i]);
+                    listAll(pavatarRef)
+                        .then((ares) => {
+                            // Get the first file in the list
+                            const fileRef = ares.items[0];
+
+                            // Get the download URL of the file
+                            getDownloadURL(fileRef)
+                                .then((url) => {
+                                    profileImg.setAttribute('src', url);
+                                })
+                                .catch((error) => {
+                                    profileImg.setAttribute('src', "img/chance.png");
+                                });
+                        })
+                        .catch((error) => {
+                            profileImg.setAttribute('src', "img/chance.png");
+                        });
+
+                    getUserRecord(lobbyData["p"+i]).then( (record) => {
+                        playerName.textContent = record.username;
+                    });
+
+                    const playerMoney = document.createElement('strong');
+                    playerMoney.classList.add('side-player-money__text');
+                    playerMoney.textContent = '$12,000k';
+
+                    // Assemble the elements
+                    circleImgShape.appendChild(profileImg);
+                    playerView.appendChild(circleImgShape);
+                    playerView.appendChild(playerName);
+                    playerView.appendChild(playerMoney);
+                    liElement.appendChild(playerView);
+
+                    // Append the li element to the ul element
+                    ulElement.appendChild(liElement);
+                }
+
                 const events = [];
                 snapshot.forEach((childSnapshot) => {
                     events.push(childSnapshot);
                 });
 
                 events.sort((a, b) => {
-                    const lobbyDataA = a.key;
-                    const lobbyDataB = b.key;
 
                     return a.key - b.key;
                 });
