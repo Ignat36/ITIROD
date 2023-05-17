@@ -204,11 +204,79 @@ function loadCurrentGame() {
 
             console.log(flag, lobbyData.count);
             if (flag == lobbyData.count) {
-                window.location.href = "game.html";
+                loadNewGameData();
             }
         })
         .catch((error) => {
             console.error("Error loading current game:", error);
+        });
+}
+
+function loadNewGameData() {
+    console.log(1);
+    get( ref(rdb, 'games/' + getCookie("game-id")))
+        .then( (snapshot) => {
+            console.log(2);
+            const gameData = snapshot.val();
+            if (gameData === null || gameData.isLoaded === false) {
+                setGmeData();
+            }
+        })
+        .catch((error) => {
+            setGmeData();
+        });
+}
+
+function setGmeData() {
+    set(ref(rdb, 'games/' + getCookie("game-id")), {isLoaded: true});
+    set(ref(rdb, 'positions/' + getCookie("game-id")), {
+        p1: 1,
+        p2: 1,
+        p3: 1,
+        p4: 1
+    });
+    set(ref(rdb, 'money/' + getCookie("game-id")), {
+        p1: 12000,
+        p2: 12000,
+        p3: 12000,
+        p4: 12000
+    });
+    set(ref(rdb, 'gameEvents/' + getCookie("game-id") + "/1"), {
+        actor: 1,
+        type: "RollAndMove"
+    });
+    set(ref(rdb, 'cells/' + getCookie("game-id")), {
+        2: { owner: 0, price: 600},
+        4: { owner: 0, price: 600},
+        6: { owner: 0, price: 2000},
+        7: { owner: 0, price: 1000},
+        9: { owner: 0, price: 1000},
+        10: { owner: 0, price: 1200},
+        12: { owner: 0, price: 1400},
+        13: { owner: 0, price: 1500},
+        14: { owner: 0, price: 1400},
+        15: { owner: 0, price: 1600},
+        16: { owner: 0, price: 2000},
+        17: { owner: 0, price: 1800},
+        19: { owner: 0, price: 1800},
+        20: { owner: 0, price: 2000},
+        22: { owner: 0, price: 2200},
+        24: { owner: 0, price: 2200},
+        25: { owner: 0, price: 2400},
+        26: { owner: 0, price: 2000},
+        27: { owner: 0, price: 2600},
+        28: { owner: 0, price: 1500},
+        29: { owner: 0, price: 2600},
+        30: { owner: 0, price: 2600},
+        32: { owner: 0, price: 3000},
+        33: { owner: 0, price: 3000},
+        35: { owner: 0, price: 3200},
+        36: { owner: 0, price: 2000},
+        38: { owner: 0, price: 3500},
+        40: { owner: 0, price: 4000}
+    })
+        .then( () => {
+            window.location.href = "game.html";
         });
 }
 
@@ -245,7 +313,7 @@ createGameForm.addEventListener('submit', (e) => {
         p1: getCookie("user-id"),
         p2: "",
         p3: "",
-        p4: "",
+        p4: ""
     })
         .then(() => {
             //console.log("Created new game ", code);
