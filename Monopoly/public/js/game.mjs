@@ -28,6 +28,8 @@ let moneyData = {
 let currentEvent;
 let messages;
 let username;
+let curCellPos;
+let curCellData;
 getUserRecord(pid)
     .then( (record) => {
         username = record.username;
@@ -87,8 +89,41 @@ function tryMakeAction(events) {
 
 function MakeAction(action) {
     if (action.type === "RollAndMove") {
-        document.getElementById("actionBlock").classList.toggle("hidden");
-        document.getElementById("rollDiceButton").classList.toggle("hidden");
+        const stateRef = ref(rdb, 'states/' + gid);
+        get(stateRef)
+            .then((snapshot) => {
+                const currentData = snapshot.val();
+                if (currentData['p'+ pnum] > 1) {
+                    if (currentData['p'+ pnum] === 4) {
+                        document.getElementById("actionBlock").classList.toggle("hidden");
+                        document.getElementById("action-text").innerHTML = "Your turn!";
+                        document.getElementById("rollDiceButton").classList.toggle("hidden");
+                    } else {
+                        document.getElementById("actionBlock").classList.toggle("hidden");
+                        document.getElementById("action-text").innerHTML = "Your turn!";
+                        document.getElementById("rollDiceButton").classList.toggle("hidden");
+                    }
+                } else {
+                    document.getElementById("actionBlock").classList.toggle("hidden");
+                    document.getElementById("action-text").innerHTML = "Your turn!";
+                    document.getElementById("rollDiceButton").classList.toggle("hidden");
+                }
+
+            });
+    }
+    else if (action.type === "BuyProperty") {
+
+        curCellPos = posData["p"+pnum];
+        get(ref(rdb, "cells/"+ gid + `/${curCellPos}`))
+            .then((snapshot) => {
+                curCellData = snapshot.val();
+                document.getElementById("actionBlock").classList.toggle("hidden");
+                document.getElementById("action-text").innerHTML = "Do you want to  buy this property?";
+                document.getElementById("actionButton1").classList.toggle("hidden");
+                document.getElementById("actionButton1").querySelector(".game-btn__text").innerHTML = "Buy for $" + prettyMoney(curCellData.price) + "k";
+                document.getElementById("actionButton2").classList.toggle("hidden");
+                document.getElementById("actionButton2").querySelector(".game-btn__text").innerHTML = "Refuse to buy";
+            })
     }
 }
 
@@ -155,7 +190,6 @@ function moveAndReact(count, loopPrice = true) {
             const newPos = (Number(posData['p'+pnum]) + Number(count) - 1) % 40 + 1;
             if (posData['p'+pnum] + count - 1 >= 40 && loopPrice) { giveMoney(2000, pnum) }
             updateData['p'+ pnum] = newPos;
-            console.log(newPos, updateData);
 
             set(posRef, updateData);
 
@@ -163,30 +197,175 @@ function moveAndReact(count, loopPrice = true) {
         });
 }
 
-function reactToCell(cellPosition) {
-    if (cellPosition in [2, 4, 6, 7, 9, 10,
-                         12, 13, 14, 15, 16, 17, 19, 20,
-                         22, 24, 25, 26, 27, 28, 29, 30,
-                         32, 33, 35, 36, 38, 40]
-    ) {
-        // property
+const buyButton = document.getElementById("actionButton1");
+const refuseButton = document.getElementById("actionButton2");
+buyButton.addEventListener("click", () => {
+    if (moneyData["p"+pnum] < curCellData.price) {
+        alert("You don't have enough money!!!");
+        return;
     }
-    else if (cellPosition in [3, 8, 18, 23, 39, 34]
-    ) {
+
+    takeMoney(curCellData.price, pnum);
+    const updateData = {...curCellData};
+    updateData["owner"] = pnum;
+    updateData["price"] = Math.floor( curCellData.price / 100 );
+    set(ref(rdb, 'cells/' + gid + `/${curCellPos}`), updateData);
+
+    document.getElementById("actionBlock").classList.toggle("hidden");
+    document.getElementById("actionButton1").classList.toggle("hidden");
+    document.getElementById("actionButton2").classList.toggle("hidden");
+
+    AddMessage("Buys property " + curCellPos + ` for $${prettyMoney(curCellData.price)}k`);
+
+    const eventsRef = ref(rdb, 'gameEvents/' + gid);
+    get(eventsRef)
+        .then((snapshot) => {
+
+            let maxId = 0;
+            snapshot.forEach((childSnapshot) => {
+                maxId = maxId < childSnapshot.key ? childSnapshot.key : maxId;
+            });
+            remove(ref(rdb, 'gameEvents/' + gid + `/${currentEvent.key}`));
+            set(ref(rdb, 'gameEvents/' + gid + `/${Number(maxId)+1}`), {
+                actor: (currentEvent.val().actor % pcount) + 1,
+                type: "RollAndMove"
+            });
+        })
+});
+refuseButton.addEventListener("click", () => {
+
+    document.getElementById("actionBlock").classList.toggle("hidden");
+    document.getElementById("actionButton1").classList.toggle("hidden");
+    document.getElementById("actionButton2").classList.toggle("hidden");
+
+    AddMessage("Refuses to buy property " + curCellPos);
+
+    const eventsRef = ref(rdb, 'gameEvents/' + gid);
+    get(eventsRef)
+        .then((snapshot) => {
+
+            let maxId = 0;
+            snapshot.forEach((childSnapshot) => {
+                maxId = maxId < childSnapshot.key ? childSnapshot.key : maxId;
+            });
+            remove(ref(rdb, 'gameEvents/' + gid + `/${currentEvent.key}`));
+            set(ref(rdb, 'gameEvents/' + gid + `/${Number(maxId)+1}`), {
+                actor: (currentEvent.val().actor % pcount) + 1,
+                type: "RollAndMove"
+            });
+        })
+});
+
+const PropertyPositions = [2, 4, 6, 7, 9, 10,
+    12, 13, 14, 15, 16, 17, 19, 20,
+    22, 24, 25, 26, 27, 28, 29, 30,
+    32, 33, 35, 36, 38, 40];
+const ChancePositions = [3, 8, 18, 23, 39, 34];
+function reactToCell(cellPosition) {
+    if ( PropertyPositions.includes( cellPosition ) ) {
+        get(ref(rdb, 'cells/' + gid + `/${cellPosition}`))
+            .then((snapshot) => {
+                const cellData = snapshot.val();
+
+                if (cellData.owner === 0) {
+                    const eventsRef = ref(rdb, 'gameEvents/' + gid);
+                    get(eventsRef)
+                        .then((snapshot) => {
+
+                            let maxId = 0;
+                            snapshot.forEach((childSnapshot) => {
+                                maxId = maxId < childSnapshot.key ? childSnapshot.key : maxId;
+                            });
+                            remove(ref(rdb, 'gameEvents/' + gid + `/${currentEvent.key}`));
+                            set(ref(rdb, 'gameEvents/' + gid + `/${Number(maxId)+1}`), {
+                                actor: pnum,
+                                type: "BuyProperty"
+                            });
+                        })
+
+                }
+                else if (cellData.owner !== pnum) {
+                    console.log(pnum, cellData);
+                    setTimeout(function () { takeMoney(cellData.price, pnum); } , 300);
+                    giveMoney(cellData.price, cellData.owner);
+                    AddMessage(`Pays $${cellData.price}k to ${document.getElementById("player-"+cellData.owner).querySelector(".side-player-name__text").innerHTML}`);
+
+                    const eventsRef = ref(rdb, 'gameEvents/' + gid);
+                    get(eventsRef)
+                        .then((snapshot) => {
+
+                            let maxId = 0;
+                            snapshot.forEach((childSnapshot) => {
+                                maxId = maxId < childSnapshot.key ? childSnapshot.key : maxId;
+                            });
+                            remove(ref(rdb, 'gameEvents/' + gid + `/${currentEvent.key}`));
+                            set(ref(rdb, 'gameEvents/' + gid + `/${Number(maxId)+1}`), {
+                                actor: (currentEvent.val().actor % pcount) + 1,
+                                type: "RollAndMove"
+                            });
+                        })
+                }
+                else {
+                    console.log("Next player");
+                    const eventsRef = ref(rdb, 'gameEvents/' + gid);
+                    get(eventsRef)
+                        .then((snapshot) => {
+
+                            let maxId = 0;
+                            snapshot.forEach((childSnapshot) => {
+                                maxId = maxId < childSnapshot.key ? childSnapshot.key : maxId;
+                            });
+                            remove(ref(rdb, 'gameEvents/' + gid + `/${currentEvent.key}`));
+                            set(ref(rdb, 'gameEvents/' + gid + `/${Number(maxId)+1}`), {
+                                actor: (currentEvent.val().actor % pcount) + 1,
+                                type: "RollAndMove"
+                            });
+                        })
+                }
+
+            });
+        return;
+    }
+    else if (ChancePositions.includes(cellPosition)) {
         //ReactToChance();
     }
-    else if (cellPosition in [5, 37]
-    ) {
-        if (cellPosition === 5) takeMoney(2000, pnum);
-        if (cellPosition === 37) takeMoney(1000, pnum);
+    else if (cellPosition === 5) {
+        AddMessage(`pays taxes in $${prettyMoney(2000)}k`);
+        takeMoney(2000, pnum);
     }
-    else if (cellPosition in [31]
-    ) {
-        //GoToJail();
+    else if (cellPosition === 37) {
+        AddMessage(`pays taxes in $${prettyMoney(1000)}k`);
+        takeMoney(1000, pnum);
+    }
+    else if (cellPosition === 31) {
+        // go to jail
+        const posRef = ref(rdb, 'positions/' + gid);
+        get(posRef)
+            .then((snapshot) => {
+                const currentData = snapshot.val();
+
+                // Create a new object by copying the current data
+                const updateData = { ...currentData };
+                const newPos = 11;
+                updateData['p'+ pnum] = newPos;
+                set(posRef, updateData);
+            });
+
+        const stateRef = ref(rdb, 'states/' + gid);
+        get(stateRef)
+            .then((snapshot) => {
+                const currentData = snapshot.val();
+
+                // Create a new object by copying the current data
+                const updateData = { ...currentData };
+                updateData['p'+ pnum] = 2;
+                set(posRef, updateData);
+            });
     }
     else {
         // do nothing
     }
+
     const eventsRef = ref(rdb, 'gameEvents/' + gid);
     get(eventsRef)
         .then((snapshot) => {
@@ -229,6 +408,8 @@ function takeMoney(amount, player) {
                 // react to player bankrupt
             }
             updateData['p'+ player] -= amount;
+            console.log(updateData);
+            moneyData = updateData;
 
             set(moneyRef, updateData);
         });

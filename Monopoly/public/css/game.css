@@ -357,7 +357,6 @@ body {
     width: 86.6667%;
     height: 100%; /* 13/15 aspect ratio */
     position: relative;
-    background-color: white;
 }
 
 .column-cell .price {

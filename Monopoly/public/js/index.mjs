@@ -241,6 +241,12 @@ function setGmeData() {
         p3: 12000,
         p4: 12000
     });
+    set(ref(rdb, 'states/' + getCookie("game-id")), {
+        p1: 1,
+        p2: 1,
+        p3: 1,
+        p4: 1
+    });
     set(ref(rdb, 'gameEvents/' + getCookie("game-id") + "/1"), {
         actor: 1,
         type: "RollAndMove"
@@ -265,8 +271,8 @@ function setGmeData() {
         25: { owner: 0, price: 2400},
         26: { owner: 0, price: 2000},
         27: { owner: 0, price: 2600},
-        28: { owner: 0, price: 1500},
-        29: { owner: 0, price: 2600},
+        28: { owner: 0, price: 2600},
+        29: { owner: 0, price: 1500},
         30: { owner: 0, price: 2600},
         32: { owner: 0, price: 3000},
         33: { owner: 0, price: 3000},
