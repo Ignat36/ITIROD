@@ -615,6 +615,10 @@ body {
         max-width: 52rem;
         max-height: 52rem;
     }
+    .circle {
+        width: 18px;
+        height: 18px;
+    }
 }
 
 @media screen and (max-width: 53rem), (max-height: 53rem) {
@@ -625,6 +629,10 @@ body {
         height: 50rem;
         max-width: 50rem;
         max-height: 50rem;
+    }
+    .circle {
+        width: 17px;
+        height: 17px;
     }
 }
 
@@ -637,6 +645,10 @@ body {
         max-width: 47rem;
         max-height: 47rem;
     }
+    .circle {
+        width: 16px;
+        height: 16px;
+    }
 }
 
 @media screen and (max-width: 48rem), (max-height: 48rem) {
@@ -647,6 +659,10 @@ body {
         height: 45rem;
         max-width: 45rem;
         max-height: 45rem;
+    }
+    .circle {
+        width: 15px;
+        height: 15px;
     }
 }
 
@@ -659,6 +675,10 @@ body {
         max-width: 42rem;
         max-height: 42rem;
     }
+    .circle {
+        width: 12px;
+        height: 12px;
+    }
 }
 
 @media screen and (max-width: 43rem), (max-height: 43rem) {
@@ -670,6 +690,14 @@ body {
         max-width: 40rem;
         max-height: 40rem;
     }
+    .circle {
+        width: 11px;
+        height: 11px;
+    }
+    
+    .row-cell .circle-container {
+        left: 112%;
+    }
 }
 
 @media screen and (max-width: 40rem), (max-height: 40rem) {
@@ -680,6 +708,11 @@ body {
         height: 37rem;
         max-width: 37rem;
         max-height: 37rem;
+    }
+
+    .circle {
+        width: 9px;
+        height: 9px;
     }
 }
 
@@ -707,6 +740,19 @@ body {
 
     .price-text {
         font-size: 0.7em;
+    }
+
+    .circle {
+        width: 8px;
+        height: 8px;
+    }
+
+    .row-cell .circle-container {
+        left: 150%;
+    }
+
+    .column-cell .circle-container {
+        left: 40%;
     }
 }
 
