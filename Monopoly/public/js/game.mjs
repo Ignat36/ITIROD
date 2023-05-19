@@ -94,21 +94,17 @@ function MakeAction(action) {
         get(stateRef)
             .then((snapshot) => {
                 const currentData = snapshot.val();
-                const updateData = { ...currentData };
                 if (currentData['p'+ pnum] > 1) {
                     if (currentData['p'+ pnum] === 4) {
                         document.getElementById("actionBlock").classList.toggle("hidden");
                         document.getElementById("action-text").innerHTML = "You have to pay!";
                         document.getElementById("actionButtonJailPayNoChoice").classList.toggle("hidden");
-                        updateData['p'+ pnum] = 1;
                     } else {
                         document.getElementById("actionBlock").classList.toggle("hidden");
                         document.getElementById("action-text").innerHTML = "How do you want to get out?!";
                         document.getElementById("actionButtonJailPay").classList.toggle("hidden");
                         document.getElementById("actionButtonJailRoll").classList.toggle("hidden");
-                        updateData['p'+ pnum]++;
                     }
-                    set(stateRef, updateData);
                 } else {
                     document.getElementById("actionBlock").classList.toggle("hidden");
                     document.getElementById("action-text").innerHTML = "Your turn!";
@@ -224,6 +220,16 @@ actionButtonJailRoll.addEventListener("click", () => {
                 moveAndReact(d1+d2);
             });
     } else {
+
+        const stateRef = ref(rdb, 'states/' + gid);
+        get(stateRef)
+            .then((snapshot) => {
+                const currentData = snapshot.val();
+                const updateData = { ...currentData };
+                updateData['p'+ pnum]++;
+                set(stateRef, updateData);
+            });
+
         const eventsRef = ref(rdb, 'gameEvents/' + gid);
         get(eventsRef)
             .then((snapshot) => {
@@ -252,10 +258,10 @@ function MakeDiceRoll() {
     document.getElementById("rollDiceButton").classList.toggle("hidden");
 
     // Generate random integers between 1 and 6
-    d1 = Math.floor(Math.random() * 6) + 1;
-    d2 = Math.floor(Math.random() * 6) + 1;
-    /*d1 = 15;
-    d2 = 15;*/
+    /*d1 = Math.floor(Math.random() * 6) + 1;
+    d2 = Math.floor(Math.random() * 6) + 1;*/
+    d1 = 1;
+    d2 = 2;
 
     AddMessage(`rolls ${d1}:${d2}`);
 }
