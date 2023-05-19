@@ -88,21 +88,27 @@ function tryMakeAction(events) {
 }
 
 function MakeAction(action) {
+    console.log("New event found: ", action);
     if (action.type === "RollAndMove") {
         const stateRef = ref(rdb, 'states/' + gid);
         get(stateRef)
             .then((snapshot) => {
                 const currentData = snapshot.val();
+                const updateData = { ...currentData };
                 if (currentData['p'+ pnum] > 1) {
                     if (currentData['p'+ pnum] === 4) {
                         document.getElementById("actionBlock").classList.toggle("hidden");
-                        document.getElementById("action-text").innerHTML = "Your turn!";
-                        document.getElementById("rollDiceButton").classList.toggle("hidden");
+                        document.getElementById("action-text").innerHTML = "You have to pay!";
+                        document.getElementById("actionButtonJailPayNoChoice").classList.toggle("hidden");
+                        updateData['p'+ pnum] = 1;
                     } else {
                         document.getElementById("actionBlock").classList.toggle("hidden");
-                        document.getElementById("action-text").innerHTML = "Your turn!";
-                        document.getElementById("rollDiceButton").classList.toggle("hidden");
+                        document.getElementById("action-text").innerHTML = "How do you want to get out?!";
+                        document.getElementById("actionButtonJailPay").classList.toggle("hidden");
+                        document.getElementById("actionButtonJailRoll").classList.toggle("hidden");
+                        updateData['p'+ pnum]++;
                     }
+                    set(stateRef, updateData);
                 } else {
                     document.getElementById("actionBlock").classList.toggle("hidden");
                     document.getElementById("action-text").innerHTML = "Your turn!";
@@ -127,6 +133,114 @@ function MakeAction(action) {
     }
 }
 
+const actionButtonJailPayNoChoice = document.getElementById("actionButtonJailPayNoChoice");
+actionButtonJailPayNoChoice.addEventListener("click", () => {
+    document.getElementById("actionBlock").classList.toggle("hidden");
+    document.getElementById("actionButtonJailPayNoChoice").classList.toggle("hidden");
+
+    takeMoney(500, pnum);
+
+    const stateRef = ref(rdb, 'states/' + gid);
+    get(stateRef)
+        .then((snapshot) => {
+            const currentData = snapshot.val();
+            const updateData = { ...currentData };
+            updateData['p'+ pnum] = 1;
+            set(stateRef, updateData);
+
+            const eventsRef = ref(rdb, 'gameEvents/' + gid);
+            get(eventsRef)
+                .then((snapshot) => {
+
+                    let maxId = 0;
+                    snapshot.forEach((childSnapshot) => {
+                        maxId = maxId < childSnapshot.key ? childSnapshot.key : maxId;
+                    });
+                    remove(ref(rdb, 'gameEvents/' + gid + `/${currentEvent.key}`));
+                    set(ref(rdb, 'gameEvents/' + gid + `/${Number(maxId)+1}`), {
+                        actor: pnum,
+                        type: "RollAndMove"
+                    });
+                })
+
+        });
+
+});
+
+const actionButtonJailPay = document.getElementById("actionButtonJailPay");
+actionButtonJailPay.addEventListener("click", () => {
+    document.getElementById("actionBlock").classList.toggle("hidden");
+    document.getElementById("actionButtonJailPay").classList.toggle("hidden");
+    document.getElementById("actionButtonJailRoll").classList.toggle("hidden");
+
+    takeMoney(500, pnum);
+
+    const stateRef = ref(rdb, 'states/' + gid);
+    get(stateRef)
+        .then((snapshot) => {
+            const currentData = snapshot.val();
+            const updateData = { ...currentData };
+            updateData['p'+ pnum] = 1;
+            set(stateRef, updateData);
+
+            const eventsRef = ref(rdb, 'gameEvents/' + gid);
+            get(eventsRef)
+                .then((snapshot) => {
+
+                    let maxId = 0;
+                    snapshot.forEach((childSnapshot) => {
+                        maxId = maxId < childSnapshot.key ? childSnapshot.key : maxId;
+                    });
+                    remove(ref(rdb, 'gameEvents/' + gid + `/${currentEvent.key}`));
+                    set(ref(rdb, 'gameEvents/' + gid + `/${Number(maxId)+1}`), {
+                        actor: pnum,
+                        type: "RollAndMove"
+                    });
+                })
+
+        });
+
+});
+
+const actionButtonJailRoll = document.getElementById("actionButtonJailRoll");
+actionButtonJailRoll.addEventListener("click", () => {
+    document.getElementById("actionBlock").classList.toggle("hidden");
+    document.getElementById("actionButtonJailPay").classList.toggle("hidden");
+    document.getElementById("actionButtonJailRoll").classList.toggle("hidden");
+
+    MakeDiceRoll();
+    document.getElementById("actionBlock").classList.toggle("hidden");
+    document.getElementById("rollDiceButton").classList.toggle("hidden");
+
+    if (d1 === d2) {
+        const stateRef = ref(rdb, 'states/' + gid);
+        get(stateRef)
+            .then((snapshot) => {
+                const currentData = snapshot.val();
+                const updateData = { ...currentData };
+                updateData['p'+ pnum] = 1;
+                set(stateRef, updateData);
+
+                moveAndReact(d1+d2);
+            });
+    } else {
+        const eventsRef = ref(rdb, 'gameEvents/' + gid);
+        get(eventsRef)
+            .then((snapshot) => {
+
+                let maxId = 0;
+                snapshot.forEach((childSnapshot) => {
+                    maxId = maxId < childSnapshot.key ? childSnapshot.key : maxId;
+                });
+                remove(ref(rdb, 'gameEvents/' + gid + `/${currentEvent.key}`));
+                set(ref(rdb, 'gameEvents/' + gid + `/${Number(maxId)+1}`), {
+                    actor: (currentEvent.val().actor % pcount) + 1,
+                    type: "RollAndMove"
+                });
+            })
+    }
+});
+
 const RollDiceButton = document.getElementById('rollDiceButton');
 RollDiceButton.addEventListener("click", () => {
     MakeDiceRoll();
@@ -140,6 +254,8 @@ function MakeDiceRoll() {
     // Generate random integers between 1 and 6
     d1 = Math.floor(Math.random() * 6) + 1;
     d2 = Math.floor(Math.random() * 6) + 1;
+    /*d1 = 15;
+    d2 = 15;*/
 
     AddMessage(`rolls ${d1}:${d2}`);
 }
@@ -193,7 +309,7 @@ function moveAndReact(count, loopPrice = true) {
 
             set(posRef, updateData);
 
-            reactToCell(newPos);
+            setTimeout( function () { reactToCell(newPos) }, count * 300 );
         });
 }
 
@@ -348,6 +464,7 @@ function reactToCell(cellPosition) {
                 const updateData = { ...currentData };
                 const newPos = 11;
                 updateData['p'+ pnum] = newPos;
+                console.log(updateData);
                 set(posRef, updateData);
             });
 
@@ -359,7 +476,8 @@ function reactToCell(cellPosition) {
                 // Create a new object by copying the current data
                 const updateData = { ...currentData };
                 updateData['p'+ pnum] = 2;
-                set(posRef, updateData);
+                console.log(updateData);
+                set(stateRef, updateData);
             });
     }
     else {
@@ -417,7 +535,7 @@ function takeMoney(amount, player) {
 
 onValue(ref(rdb, 'positions/' + gid), (snapshot) => {
     const newPosData = snapshot.val();
-
+    console.log("Update positions", posData, newPosData);
     if (pnum < 1) {
         posData = newPosData;
     }
@@ -490,6 +608,7 @@ onValue(ref(rdb, 'messages/' + gid), (snapshot) => {
 });
 
 onValue(ref(rdb, 'gameEvents/' + gid), (snapshot) => {
+
     if (pnum === 0) {
         pnum = -1;
         const lobbyRef = ref(rdb, 'lobbies/' + gid);
