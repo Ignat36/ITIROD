@@ -220,6 +220,8 @@ function loadNewGameData() {
             const gameData = snapshot.val();
             if (gameData === null || gameData.isLoaded === false) {
                 setGmeData();
+            } else {
+                window.location.href = "game.html";
             }
         })
         .catch((error) => {

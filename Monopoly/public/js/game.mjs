@@ -258,10 +258,10 @@ function MakeDiceRoll() {
     document.getElementById("rollDiceButton").classList.toggle("hidden");
 
     // Generate random integers between 1 and 6
-    /*d1 = Math.floor(Math.random() * 6) + 1;
-    d2 = Math.floor(Math.random() * 6) + 1;*/
-    d1 = 1;
-    d2 = 2;
+    d1 = Math.floor(Math.random() * 6) + 1;
+    d2 = Math.floor(Math.random() * 6) + 1;
+    /*d1 = 1;
+    d2 = 2;*/
 
     AddMessage(`rolls ${d1}:${d2}`);
 }
